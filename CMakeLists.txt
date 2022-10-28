@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.21)
 project(ogl)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -12,4 +12,4 @@ add_subdirectory(external)
 add_executable(ogl src/main.cpp src/GLWindow.h src/types.h src/GLWindow.cpp src/renderObjects.h src/Texture.cpp src/Texture.h src/Player.cpp src/Player.h src/Time.h src/Time.cpp src/ShaderProgram.cpp src/ShaderProgram.h src/Shader.cpp src/Shader.h)
 
 target_compile_options(ogl PRIVATE $<$<CXX_COMPILER_ID:MSVC>: /W4 /WX> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>: -Wall -Wextra -Wpedantic>)
-target_link_libraries(ogl PRIVATE OpenGL::GL OpenGL::GLU glfw glad glm assimp stb_image imgui)
+target_link_libraries(ogl PRIVATE OpenGL::GL OpenGL::GLU glfw glad glm::glm assimp stb_image imgui)
