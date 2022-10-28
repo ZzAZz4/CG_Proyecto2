@@ -122,7 +122,7 @@ void renderScene () {
         model = glm::translate(model, position);
         model = glm::scale(model, glm::vec3(1.f));
         shader->setMat4("model", model);
-        renderPyramid();
+        renderCube();
     }
 }
 
