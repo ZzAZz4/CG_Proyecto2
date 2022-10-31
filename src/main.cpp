@@ -18,7 +18,6 @@ void Render ();
 std::unique_ptr<GLWindow> window;
 std::unique_ptr<ShaderProgram> shader;
 std::unique_ptr<Texture2D> texture;
-//std::unique_ptr<Chunk> chunk;
 std::unique_ptr<World> world;
 Player player;
 
@@ -80,7 +79,7 @@ int main () {
         for (int z = 0; z < 2 * Chunk::CHUNK_SIZE; z++) {
             const int y = x / Chunk::CHUNK_SIZE + z / Chunk::CHUNK_SIZE + 1;
             for (int i = 0; i < y; i++) {
-                const auto block = i == 0 ? Block::Stone : Block::Grass;
+                const auto block = i == 0 ? Block::Wood : Block::Grass;
                 world->SetBlock(x, i, z, block);
             }
         }

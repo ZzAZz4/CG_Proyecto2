@@ -5,6 +5,7 @@
 
 #include <array>
 #include <string_view>
+#include <memory>
 
 struct ShaderProgram;
 
@@ -14,16 +15,13 @@ namespace Block {
         Air = 0,
         Grass = 1,
         Stone = 2,
+        Wood = 5,
         NUM_BLOCKS,
     };
 
-    static std::array<Block, Block::NUM_BLOCKS> top_texture = {
-        Block::Air,
-        Block::Grass,
-        Block::Stone,
-    };
 
     void Init(const ShaderProgram& program, std::string_view textureFile);
+
 }
 
 
