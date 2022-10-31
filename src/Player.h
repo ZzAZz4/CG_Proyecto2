@@ -5,6 +5,8 @@
 
 #include "types.h"
 #include "Camera.h"
+#include "Block.h"
+#include "World.h"
 
 struct ActionFlags {
     bool forward: 1 = false;
@@ -22,7 +24,7 @@ struct Player {
     float speed = 2.5f;
     float mouseSensitivity = 0.1f;
 
-    void Update();
+    void Update(const World* world);
 
     void OnMouseMove(double xpos, double ypos);
     void OnKeyPress(int key, int scancode, int action, int mods);

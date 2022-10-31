@@ -5,14 +5,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "GLwindow.h"
+#include "GLWindow.h"
 #include "Texture.h"
 #include "Player.h"
 #include "ShaderProgram.h"
 #include "Time.h"
 #include "Chunk.h"
-#include "World.h"
-#include "Block.h"
 #include <memory>
 
 void Render ();
@@ -24,11 +22,10 @@ std::unique_ptr<Texture2D> texture;
 std::unique_ptr<World> world;
 Player player;
 
-
 void Update () {
     Time::Update();
     world->Update();
-    player.Update();
+    player.Update(world.get());
 }
 
 void OnResize (void*, i32 width, i32 height) {
@@ -75,6 +72,7 @@ int main () {
     Time::Init();
     Block::Init(*shader, "../res/textures/terrain.png");
 
+    player.camera.Position = glm::vec3(100,0,100);
     world = std::make_unique<World>();
 
     OnResize(nullptr, window->Width, window->Height);

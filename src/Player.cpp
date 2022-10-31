@@ -9,19 +9,33 @@ static bool firstMouse = true;
 static f32 lastX = nanf("");
 static f32 lastY = nanf("");
 
-void Player::Update () {
+void Player::Update (const World* world) {
     float velocity = this->speed * Time::deltaTime;
 
+    glm::vec3 posOffset = glm::vec3(0,0,0);
     glm::vec3 actualFront = glm::normalize(glm::vec3(this->camera.Front.x, 0, this->camera.Front.z));
 
     printf("ActionFlags: %d %d %d %d %d %d %d\n", this->action_flags.forward, this->action_flags.backward, this->action_flags.left, this->action_flags.right, this->action_flags.up, this->action_flags.down, this->action_flags.run);
     if (this->action_flags.run) velocity *= 2.0f;
-    if (this->action_flags.forward) this->camera.Position += actualFront * velocity;
-    if (this->action_flags.backward) this->camera.Position -= actualFront * velocity;
-    if (this->action_flags.right) this->camera.Position += this->camera.Right * velocity;
-    if (this->action_flags.left) this->camera.Position -= this->camera.Right * velocity;
-    if (this->action_flags.up) this->camera.Position += glm::vec3(0, velocity, 0);
-    if (this->action_flags.down) this->camera.Position -= glm::vec3(0, velocity, 0);
+    if (this->action_flags.forward) posOffset += actualFront * velocity;
+    if (this->action_flags.backward) posOffset -= actualFront * velocity;
+    if (this->action_flags.right) posOffset += this->camera.Right * velocity;
+    if (this->action_flags.left) posOffset -= this->camera.Right * velocity;
+    if (this->action_flags.up) posOffset += glm::vec3(0, velocity, 0);
+    if (this->action_flags.down) posOffset -= glm::vec3(0, velocity, 0);
+
+    if (posOffset != glm::vec3(0,0,0)){
+        glm::vec3 newPosition = this->camera.Position + posOffset;
+        uint8_t block = world->GetBlock(newPosition.x, newPosition.y, newPosition.z);
+
+        //TODO: Dejar al jugador justo antes de chocar con el bloque
+        
+        if(block != Block::Air) {
+            if (posOffset.x != 0) this->camera.Position.z += posOffset.x;
+            else this->camera.Position.x += posOffset.z;
+        }
+        else this->camera.Position = newPosition;
+    }
 
     this->camera.Update();
 }
