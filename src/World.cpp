@@ -1,5 +1,5 @@
 
-
+#include "Block.h"
 #include "World.h"
 
 constexpr static int ilog2 (int n) {
@@ -47,7 +47,15 @@ uint8_t World::GetBlock (int x, int y, int z) const {
 
     int cx = x & (Chunk::CHUNK_SIZE - 1);
     int cz = z & (Chunk::CHUNK_SIZE - 1);
-    return chunks[x >> LOG_CHUNK_SIZE][z >> LOG_CHUNK_SIZE]->GetBlock(cx, y, cz);
+
+    int chunk_x = x >> LOG_CHUNK_SIZE;
+    int chunk_z = z >> LOG_CHUNK_SIZE;
+
+    if (chunk_x < 0 || chunk_x >= (int) std::size(chunks) || chunk_z < 0 || chunk_z >= (int) std::size(chunks[0])) {
+        return Block::Air;
+    }
+
+    return chunks[chunk_x][chunk_z]->GetBlock(cx, y, cz);
 }
 
 void World::SetBlock (int x, int y, int z, uint8_t block) {
