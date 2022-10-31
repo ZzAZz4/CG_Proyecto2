@@ -29,12 +29,16 @@ struct GLWindow {
     float AspectRatio;
     glm::vec4 clearColor{0.0f, 0.0f, 0.0f, 1.0f};
 
+    /* creates a window with the given width and height */
     GLWindow (int width, int height, const char* title, const WindowCallbackInfo& callbackInfo);
     ~GLWindow ();
 
+    /* asks if the window is still open */
     bool ShouldClose () const;
+    /* closes the window */
     void Close ();
 
+    /* clears the display */
     void ClearDisplay () const;
     void SwapBuffers () const;
     void PollEvents () const;

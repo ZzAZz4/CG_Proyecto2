@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include "Time.h"
 #include "Player.h"
+#include <stdio.h>
 
 static bool firstMouse = true;
 static f32 lastX = nanf("");
@@ -13,6 +14,7 @@ void Player::Update () {
 
     glm::vec3 actualFront = glm::normalize(glm::vec3(this->camera.Front.x, 0, this->camera.Front.z));
 
+    printf("ActionFlags: %d %d %d %d %d %d %d\n", this->action_flags.forward, this->action_flags.backward, this->action_flags.left, this->action_flags.right, this->action_flags.up, this->action_flags.down, this->action_flags.run);
     if (this->action_flags.run) velocity *= 2.0f;
     if (this->action_flags.forward) this->camera.Position += actualFront * velocity;
     if (this->action_flags.backward) this->camera.Position -= actualFront * velocity;
@@ -56,8 +58,8 @@ void Player::OnKeyPress (int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_A) this->action_flags.left = action == GLFW_PRESS;
     if (key == GLFW_KEY_D) this->action_flags.right = action == GLFW_PRESS;
     if (key == GLFW_KEY_SPACE) this->action_flags.up = action == GLFW_PRESS;
-    if (key == GLFW_KEY_LEFT_SHIFT) this->action_flags.down = action == GLFW_PRESS;
-    if (key == GLFW_KEY_LEFT_CONTROL) this->action_flags.run = action == GLFW_PRESS;
+    if (key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT) this->action_flags.down = action == GLFW_PRESS;
+    if (key == GLFW_KEY_LEFT_CONTROL || key == GLFW_KEY_RIGHT_CONTROL) this->action_flags.run = action == GLFW_PRESS;
 }
 
 void Player::OnMouseScroll (double xoffset, double yoffset) {

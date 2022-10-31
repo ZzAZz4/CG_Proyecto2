@@ -42,7 +42,7 @@ GLWindow::GLWindow (int width, int height, const char* title, const WindowCallba
 #ifndef NDEBUG
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-    glDebugMessageCallback(Display::OnDebug, nullptr);
+    glDebugMessageCallback(GLWindow::OnDebug, nullptr);
     glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 #endif
 }
@@ -150,3 +150,4 @@ void GLWindow::EnableCulling (int cullFace, int spinDirection) const {
     glCullFace(cullFace);
     glFrontFace(spinDirection);
 }
+

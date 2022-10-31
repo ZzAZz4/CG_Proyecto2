@@ -23,4 +23,7 @@ using sptr = intptr_t;
 using usize = size_t;
 using ssize = ssize_t;
 
+
+typedef glm::tvec4<u8> byte4;
+
 #endif //OGL_TYPES_H
