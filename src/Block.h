@@ -5,6 +5,7 @@
 
 #include <array>
 #include <string_view>
+#include <memory>
 
 struct ShaderProgram;
 
@@ -20,6 +21,7 @@ namespace Block {
 
 
     void Init(const ShaderProgram& program, std::string_view textureFile);
+
 }
 
 
