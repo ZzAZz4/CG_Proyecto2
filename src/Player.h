@@ -17,7 +17,7 @@ struct ActionFlags {
 };
 
 struct Player {
-    Camera camera {glm::vec3(0.0f, 0.0f, 3.0f), -90.f, 0.f};
+    Camera camera {glm::vec3(0.0f, 2.0f, 0.0f), 90.f, 0.f};
     ActionFlags action_flags;
     float speed = 2.5f;
     float mouseSensitivity = 0.1f;
