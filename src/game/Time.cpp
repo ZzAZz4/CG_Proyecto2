@@ -1,5 +1,5 @@
-#include <GLFW/glfw3.h>
 #include "Time.h"
+#include <GLFW/glfw3.h>
 
 void Time::Init() { lastFrame = (float)glfwGetTime(); }
 void Time::Update() {

@@ -2,7 +2,7 @@
 #include "PlayerPhysics.h"
 
 glm::vec3 PlayerPhysics::offsetedPosition(const Player& player, const World& world,
-                                      const glm::vec3& posOffset, float velocity) {
+                                          const glm::vec3& posOffset, float velocity) {
     if (posOffset == glm::vec3(0, 0, 0)) {
         return player.camera.Position;
     }

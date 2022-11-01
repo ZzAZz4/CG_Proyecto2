@@ -15,5 +15,4 @@ public:
     bool showSubMenu = false;
 };
 
-
-#endif //OGL_PAUSEMENU_H
+#endif // OGL_PAUSEMENU_H

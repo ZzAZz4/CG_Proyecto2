@@ -3,9 +3,9 @@
 #ifndef OGL_PLAYERPHYSICS_H
 #define OGL_PLAYERPHYSICS_H
 
-#include <glm/glm.hpp>
-#include "World.h"
 #include "Player.h"
+#include "World.h"
+#include <glm/glm.hpp>
 
 struct AABB {
     glm::vec3 min;
@@ -13,11 +13,9 @@ struct AABB {
 };
 
 namespace PlayerPhysics {
-    const AABB playerAABB = {
-        glm::vec3(-0.3f, -1.6f, -0.3f),
-        glm::vec3(0.3f, 0.2f, 0.3f)
-    };
-    glm::vec3 offsetedPosition(const Player& player, const World& world, const glm::vec3& posOffset, float velocity);
-};
+    const AABB playerAABB = {glm::vec3(-0.3f, -1.6f, -0.3f), glm::vec3(0.3f, 0.2f, 0.3f)};
+    glm::vec3 offsetedPosition(const Player& player, const World& world, const glm::vec3& posOffset,
+                               float velocity);
+}; // namespace PlayerPhysics
 
 #endif // OGL_PLAYERPHYSICS_H
