@@ -63,5 +63,6 @@ void PauseMenu::SetupFrame() {
     ImGui::Begin("[ PAUSE ]");
     changeHeldBlock();
     switchInSurvival();
+
     ImGui::End();
 }
