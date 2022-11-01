@@ -35,23 +35,26 @@ void Player::Update() {
     if (this->action_flags.down)
         posOffset -= glm::vec3(0, velocity, 0);
 
-    if (posOffset != glm::vec3(0, 0, 0)) {
-        glm::vec3 newPosition = this->camera.Position + posOffset;
-        uint8_t block = world->GetBlock(newPosition.x, newPosition.y, newPosition.z);
+    if (inSurvival) {
+        if (posOffset != glm::vec3(0, 0, 0)) {
+            glm::vec3 newPosition = this->camera.Position + posOffset;
+            uint8_t block = world->GetBlock(newPosition.x, newPosition.y, newPosition.z);
 
-        // TODO: Dejar al jugador justo antes de chocar con el bloque
+            // TODO: Dejar al jugador justo antes de chocar con el bloque
 
-        if (block != Block::Air) {
-            glm::vec3 dir = this->camera.Right * velocity;
-            dir = glm::vec3(dir.z, dir.y, dir.x);
-            if (this->action_flags.forward || this->action_flags.right)
-                this->camera.Position += dir;
-            if (this->action_flags.backward || this->action_flags.left)
-                this->camera.Position -= dir;
-        } else {
-            this->camera.Position = newPosition;
+            if (block != Block::Air) {
+                glm::vec3 dir = this->camera.Right * velocity;
+                dir = glm::vec3(dir.z, dir.y, dir.x);
+                if (this->action_flags.forward || this->action_flags.right)
+                    this->camera.Position += dir;
+                if (this->action_flags.backward || this->action_flags.left)
+                    this->camera.Position -= dir;
+            } else {
+                this->camera.Position = newPosition;
+            }
         }
     }
+
 
     this->camera.Update();
 }
