@@ -18,18 +18,28 @@ struct ActionFlags {
     bool run: 1 = false;
 };
 
+struct PlayerSettings {
+    float speed = 2.5f;
+    float mouseSensitivity = 0.1f;
+};
+
+
 struct Player {
     Camera camera {glm::vec3(0.0f, 2.0f, 0.0f), 90.f, 0.f};
     ActionFlags action_flags;
+    World* world = nullptr;
     float speed = 2.5f;
     float mouseSensitivity = 0.1f;
 
-    void Update(const World* world);
+    Player(World* world, PlayerSettings settings = PlayerSettings());
+
+    void Update();
 
     void OnMouseMove(double xpos, double ypos);
     void OnKeyPress(int key, int scancode, int action, int mods);
     void OnResize(int width, int height);
     void OnMouseScroll(double xoffset, double yoffset);
+    void OnMouseClick(int button, int action, int mods);
 };
 
 #endif //OGL_PLAYER_H

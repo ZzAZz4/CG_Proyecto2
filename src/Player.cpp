@@ -3,19 +3,22 @@
 #include <glm/glm.hpp>
 #include "Time.h"
 #include "Player.h"
+#include "ShortRayCast.h"
 #include <stdio.h>
 
 static bool firstMouse = true;
 static f32 lastX = nanf("");
 static f32 lastY = nanf("");
 
-void Player::Update (const World* world) {
+Player::Player (World* world, PlayerSettings settings)
+    : world(world), speed(settings.speed), mouseSensitivity(settings.mouseSensitivity) {}
+
+void Player::Update () {
     float velocity = this->speed * Time::deltaTime;
 
-    glm::vec3 posOffset = glm::vec3(0,0,0);
+    glm::vec3 posOffset = glm::vec3(0, 0, 0);
     glm::vec3 actualFront = glm::normalize(glm::vec3(this->camera.Front.x, 0, this->camera.Front.z));
 
-    printf("ActionFlags: %d %d %d %d %d %d %d\n", this->action_flags.forward, this->action_flags.backward, this->action_flags.left, this->action_flags.right, this->action_flags.up, this->action_flags.down, this->action_flags.run);
     if (this->action_flags.run) velocity *= 2.0f;
     if (this->action_flags.forward) posOffset += actualFront * velocity;
     if (this->action_flags.backward) posOffset -= actualFront * velocity;
@@ -24,22 +27,21 @@ void Player::Update (const World* world) {
     if (this->action_flags.up) posOffset += glm::vec3(0, velocity, 0);
     if (this->action_flags.down) posOffset -= glm::vec3(0, velocity, 0);
 
-    if (posOffset != glm::vec3(0,0,0)){
+    if (posOffset != glm::vec3(0, 0, 0)) {
         glm::vec3 newPosition = this->camera.Position + posOffset;
         uint8_t block = world->GetBlock(newPosition.x, newPosition.y, newPosition.z);
 
         //TODO: Dejar al jugador justo antes de chocar con el bloque
-        
-        if(block != Block::Air) {
-            if (posOffset.x != 0) this->camera.Position.z += (velocity*actualFront.x);
-            else this->camera.Position.x += (velocity*actualFront.z);
+
+        if (block != Block::Air) {
+            if (posOffset.x != 0) { this->camera.Position.z += (velocity * actualFront.x); }
+            else { this->camera.Position.x += (velocity * actualFront.z); }
         }
-        else this->camera.Position = newPosition;
+        else { this->camera.Position = newPosition; }
     }
 
     this->camera.Update();
 }
-
 
 
 void Player::OnMouseMove (double xposd, double yposd) {
@@ -78,5 +80,26 @@ void Player::OnKeyPress (int key, int scancode, int action, int mods) {
 
 void Player::OnMouseScroll (double xoffset, double yoffset) {
     this->camera.Zoom = glm::clamp(this->camera.Zoom - (float) yoffset, 1.0f, 45.0f);
+}
+
+void Player::OnMouseClick (int button, int action, int mods) {
+    if (action != GLFW_PRESS) {
+        return;
+    }
+
+    ShortRayCast rayCast{this->camera.Position, this->camera.Front, 6.0f};
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        float hit = rayCast.Hit(world);
+        if (hit != -1.0f) {
+            glm::ivec3 res = this->camera.Position + (this->camera.Front * hit);
+            world->SetBlock(res.x, res.y, res.z, Block::Air);
+        }
+    } else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+        float hit = rayCast.BeforeHit(world);
+        if (hit != -1.0f) {
+            glm::ivec3 res = this->camera.Position + (this->camera.Front * hit);
+            world->SetBlock(res.x, res.y, res.z, Block::Grass);
+        }
+    }
 }
 

@@ -34,6 +34,9 @@ Texture2D::Texture2D (const u8* data, int width, int height, int channels) {
 }
 
 Texture2D::~Texture2D () {
+    if (isValid()) {
+        glDeleteTextures(1, &id);
+    }
     glDeleteTextures(1, &id);
 }
 
@@ -74,4 +77,8 @@ Texture2D Texture2D::FromFile (std::string_view path) {
     Texture2D tex{ data, width, height, nrComponents };
     stbi_image_free(data);
     return tex;
+}
+
+bool Texture2D::isValid () const {
+    return id != 0;
 }

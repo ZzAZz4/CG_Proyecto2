@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(Imgui)
 
+find_package(glfw3 REQUIRED)
+
 add_library(imgui
     imgui.cpp
     imgui.h
@@ -19,3 +21,4 @@ add_library(imgui
     backends/imgui_impl_opengl3.cpp
     )
 target_include_directories(imgui PUBLIC .)
+target_link_libraries(imgui glfw)

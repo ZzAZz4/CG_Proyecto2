@@ -1,4 +1,4 @@
-#version 330 core
+#version 450 core
 
 in vec4 texcoord;
 uniform sampler2DArray tex;
@@ -33,7 +33,7 @@ vec4 calculate_color() {
 void main() {
     vec4 color = calculate_color();
 
-    if (color.a < 0.3) {
+    if (color.a < 0.1) {
         discard;
     }
 
