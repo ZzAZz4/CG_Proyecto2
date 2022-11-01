@@ -22,13 +22,11 @@ Player::Player(World* world, PlayerSettings settings)
 
 
 void Player::Update() {
-    float velocity = this->speed * Time::deltaTime;
+    float velocity = (this->action_flags.run ? this->speed : this->runSpeed) * Time::deltaTime;
 
     glm::vec3 posOffset = glm::vec3(0, 0, 0);
     glm::vec3 flatFront = glm::normalize(glm::vec3(this->camera.Front.x, 0, this->camera.Front.z));
 
-    if (this->action_flags.run)
-        velocity *= 2.0f;
     if (this->action_flags.forward)
         posOffset += flatFront * velocity;
     if (this->action_flags.backward)
