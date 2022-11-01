@@ -2,9 +2,9 @@
 #define OGL_BLOCK_H
 
 #include <array>
+#include <map>
 #include <memory>
 #include <string_view>
-#include <map>
 
 struct ShaderProgram;
 
@@ -24,9 +24,9 @@ namespace Block {
 } // namespace Block
 
 static std::map<std::string, uint8_t> blockMap{{"Air", Block::Air},
-                                                         {"Grass", Block::Grass},
-                                                         {"Wood", Block::Wood},
-                                                         {"Brick", Block::Brick},
-                                                         {"Glass", Block::Glass}};
+                                               {"Grass", Block::Grass},
+                                               {"Wood", Block::Wood},
+                                               {"Brick", Block::Brick},
+                                               {"Glass", Block::Glass}};
 
 #endif // OGL_BLOCK_H

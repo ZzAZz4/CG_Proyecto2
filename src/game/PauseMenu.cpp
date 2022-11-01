@@ -3,7 +3,7 @@
 
 PauseMenu::PauseMenu(const GLWindow& window, Player* player) : Gui(window), player(player) {}
 
-void ToggleButton(const char* str_id, bool* v){
+void ToggleButton(const char* str_id, bool* v) {
     ImVec2 p = ImGui::GetCursorScreenPos();
     ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
@@ -15,17 +15,19 @@ void ToggleButton(const char* str_id, bool* v){
         *v = !*v;
     ImU32 col_bg;
     if (ImGui::IsItemHovered())
-        col_bg = *v ? IM_COL32(145+20, 211, 68+20, 255) : IM_COL32(218-20, 218-20, 218-20, 255);
+        col_bg = *v ? IM_COL32(145 + 20, 211, 68 + 20, 255)
+                    : IM_COL32(218 - 20, 218 - 20, 218 - 20, 255);
     else
         col_bg = *v ? IM_COL32(145, 211, 68, 255) : IM_COL32(218, 218, 218, 255);
 
     draw_list->AddRectFilled(p, ImVec2(p.x + width, p.y + height), col_bg, height * 0.5f);
-    draw_list->AddCircleFilled(ImVec2(*v ? (p.x + width - radius) : (p.x + radius), p.y + radius), radius - 1.5f, IM_COL32(255, 255, 255, 255));
+    draw_list->AddCircleFilled(ImVec2(*v ? (p.x + width - radius) : (p.x + radius), p.y + radius),
+                               radius - 1.5f, IM_COL32(255, 255, 255, 255));
 }
 
 void PauseMenu::changeHeldBlock() {
     if (!showSubMenu) {
-        ImGui::TextColored(ImVec4(1,1,0,1), "Change the block you use to build!");
+        ImGui::TextColored(ImVec4(1, 1, 0, 1), "Change the block you use to build!");
         if (ImGui::Button("Change held block"))
             showSubMenu = true;
     } else {
@@ -46,16 +48,16 @@ void PauseMenu::changeHeldBlock() {
     }
 }
 
-void PauseMenu::switchInSurvival(){
-    if(!showSubMenu){
-        ImGui::TextColored(ImVec4(1,1,0,1), "Play in survival (activate gravity and colisions)");
+void PauseMenu::switchInSurvival() {
+    if (!showSubMenu) {
+        ImGui::TextColored(ImVec4(1, 1, 0, 1), "Play in survival (activate gravity and colisions)");
         ToggleButton("Switch to survival mode", &(player->inSurvival));
-        if(player->inSurvival) {
+        if (player->inSurvival) {
             ImGui::Text("You are currently playing on Survival mode");
             ImGui::SliderFloat("Gravity", &player->gravity, -100.0f, 0.0f);
             ImGui::SliderFloat("Impulse", &player->impulse, 0.0f, 20.0f);
-        }
-        else ImGui::Text("Touch the toggle button to switch to Survival mode");
+        } else
+            ImGui::Text("Touch the toggle button to switch to Survival mode");
     }
 }
 

@@ -15,7 +15,8 @@ struct AABB {
 };
 
 namespace PlayerPhysics {
-    static inline const AABB playerAABB = {glm::vec3(-0.3f, -1.6f, -0.3f), glm::vec3(0.3f, 0.2f, 0.3f)};
+    static inline const AABB playerAABB = {glm::vec3(-0.3f, -1.6f, -0.3f),
+                                           glm::vec3(0.3f, 0.2f, 0.3f)};
 
     glm::vec3 result(Player& player, const World& world, const glm::vec3& posOffset);
 }; // namespace PlayerPhysics
