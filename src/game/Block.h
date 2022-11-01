@@ -4,11 +4,10 @@
 #define OGL_BLOCK_H
 
 #include <array>
-#include <string_view>
 #include <memory>
+#include <string_view>
 
 struct ShaderProgram;
-
 
 namespace Block {
     enum Block : uint8_t {
@@ -21,11 +20,8 @@ namespace Block {
         NUM_BLOCKS,
     };
 
-
     void Init(const ShaderProgram& program, std::string_view textureFile);
 
-}
+} // namespace Block
 
-
-
-#endif //OGL_BLOCK_H
+#endif // OGL_BLOCK_H

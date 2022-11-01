@@ -19,5 +19,4 @@ struct Shader {
     Shader& operator=(Shader&&) noexcept = delete;
 };
 
-
-#endif //OGL_SHADER_H
+#endif // OGL_SHADER_H

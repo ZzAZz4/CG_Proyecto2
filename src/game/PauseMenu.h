@@ -13,5 +13,4 @@ public:
     void SetupFrame() override;
 };
 
-
-#endif //OGL_PAUSEMENU_H
+#endif // OGL_PAUSEMENU_H

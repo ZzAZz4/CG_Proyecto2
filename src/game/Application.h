@@ -3,7 +3,6 @@
 #ifndef OGL_APPLICATION_H
 #define OGL_APPLICATION_H
 
-
 #include "../rendering/GLWindow.h"
 #include "Scene.h"
 
@@ -13,28 +12,25 @@ struct Application {
 
     Application();
 
-    void LoadScene (const std::string &sceneName);
+    void LoadScene(const std::string& sceneName);
 
     void Run();
 
     void Update();
     void Render();
 
-    void OnKeyPressed (i32 key, i32 scancode, i32 action, i32 mods);
-    void OnMouseClicked (i32 button, i32 action, i32 mods);
-    void OnMouseMove (f64 xposd, f64 yposd);
-    void OnMouseScroll (f64 xoffset, f64 yoffset);
-    void OnResize (i32 width, i32 height);
-
+    void OnKeyPressed(int key, int scancode, int action, int mods);
+    void OnMouseClicked(int button, int action, int mods);
+    void OnMouseMove(double xposd, double yposd);
+    void OnMouseScroll(double xoffset, double yoffset);
+    void OnResize(int width, int height);
 
 private:
-    static void OnKeyPressedCallback (void* self, i32 key, i32 scancode, i32 action, i32 mods);
-    static void OnMouseClickedCallback (void* self, i32 button, i32 action, i32 mods);
-    static void OnMouseMoveCallback (void* self, f64 xposd, f64 yposd);
-    static void OnMouseScrollCallback (void* self, f64 xoffset, f64 yoffset);
-    static void OnResizeCallback (void* self, i32 width, i32 height);
-
+    static void OnKeyPressedCallback(void* self, int key, int scancode, int action, int mods);
+    static void OnMouseClickedCallback(void* self, int button, int action, int mods);
+    static void OnMouseMoveCallback(void* self, double xposd, double yposd);
+    static void OnMouseScrollCallback(void* self, double xoffset, double yoffset);
+    static void OnResizeCallback(void* self, int width, int height);
 };
 
-
-#endif //OGL_APPLICATION_H
+#endif // OGL_APPLICATION_H

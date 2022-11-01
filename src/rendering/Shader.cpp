@@ -1,12 +1,12 @@
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <string>
-#include <stdexcept>
-#include <fstream>
 #include "Shader.h"
+#include <GLFW/glfw3.h>
+#include <fstream>
+#include <glad/glad.h>
+#include <stdexcept>
+#include <string>
 
-Shader::Shader (int type, std::string_view sourceCode) {
+Shader::Shader(int type, std::string_view sourceCode) {
     id = glCreateShader(type);
     const char* sourceCodePtr = sourceCode.data();
     glShaderSource(id, 1, &sourceCodePtr, nullptr);
@@ -22,7 +22,7 @@ Shader::Shader (int type, std::string_view sourceCode) {
     }
 }
 
-Shader Shader::FromFile (int type, std::string_view path) {
+Shader Shader::FromFile(int type, std::string_view path) {
     std::ifstream file(path.data());
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open file: " + std::string(path));
@@ -31,6 +31,4 @@ Shader Shader::FromFile (int type, std::string_view path) {
     return {type, content};
 }
 
-Shader::~Shader () {
-    glDeleteShader(id);
-}
+Shader::~Shader() { glDeleteShader(id); }

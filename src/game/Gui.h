@@ -18,5 +18,4 @@ public:
     virtual void SetupFrame() = 0;
 };
 
-
-#endif //OGL_GUI_H
+#endif // OGL_GUI_H

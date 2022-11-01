@@ -3,9 +3,9 @@
 #ifndef OGL_SCENE_H
 #define OGL_SCENE_H
 
-#include "World.h"
-#include "Player.h"
 #include "PauseMenu.h"
+#include "Player.h"
+#include "World.h"
 
 struct Scene {
     World world;
@@ -15,19 +15,14 @@ struct Scene {
 
     Scene();
 
-    void Update ();
-    void Render ();
+    void Update();
+    void Render();
 
-    void OnResize (i32 width, i32 height);
-
-    void OnKeyPressed (i32 key, i32 scancode, i32 action, i32 mods);
-
-    void OnMouseMove (f64 xposd, f64 yposd);
-
-    void OnMouseScroll (f64 xoffset, f64 yoffset);
-
-    void OnMouseClicked (i32 button, i32 action, i32 mods);
+    void OnResize(int width, int height);
+    void OnKeyPressed(int key, int scancode, int action, int mods);
+    void OnMouseMove(double xposd, double yposd);
+    void OnMouseScroll(double xoffset, double yoffset);
+    void OnMouseClicked(int button, int action, int mods);
 };
 
-
-#endif //OGL_SCENE_H
+#endif // OGL_SCENE_H

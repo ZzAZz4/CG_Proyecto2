@@ -1,6 +1,6 @@
 #include "game/Application.h"
 
-int main () {
+int main() {
     Application application;
     // TODO: loadScene is hardcoded xd
     application.LoadScene("scene1");
@@ -8,9 +8,3 @@ int main () {
 
     return 0;
 }
-
-
-
-
-
-
