@@ -4,7 +4,7 @@
 #define OGL_SHORTRAYCAST_H
 
 #include "types.h"
-#include "World.h"
+#include "../game/World.h"
 #include <optional>
 
 struct ShortRayCast {

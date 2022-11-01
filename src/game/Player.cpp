@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include "Time.h"
 #include "Player.h"
-#include "ShortRayCast.h"
+#include "../math/ShortRayCast.h"
 #include <stdio.h>
 
 static bool firstMouse = true;
@@ -12,6 +12,7 @@ static f32 lastY = nanf("");
 
 Player::Player (World* world, PlayerSettings settings)
     : world(world), speed(settings.speed), mouseSensitivity(settings.mouseSensitivity) {}
+
 
 void Player::Update () {
     float velocity = this->speed * Time::deltaTime;

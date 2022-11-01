@@ -9,7 +9,7 @@ find_package(glm REQUIRED)
 find_package(assimp REQUIRED)
 add_subdirectory(external)
 
-add_executable(ogl src/main.cpp src/GLWindow.h src/types.h src/GLWindow.cpp src/Texture.cpp src/Texture.h src/Player.cpp src/Player.h src/Time.h src/Time.cpp src/ShaderProgram.cpp src/ShaderProgram.h src/Shader.cpp src/Shader.h src/Chunk.cpp src/Chunk.h src/World.cpp src/World.h src/Block.cpp src/Block.h src/ShortRayCast.cpp src/ShortRayCast.h src/Gui.cpp src/Gui.h src/PauseMenu.cpp src/PauseMenu.h)
+add_executable(ogl src/main.cpp src/rendering/GLWindow.h src/math/types.h src/rendering/GLWindow.cpp src/rendering/Texture.cpp src/rendering/Texture.h src/game/Player.cpp src/game/Player.h src/game/Time.h src/game/Time.cpp src/rendering/ShaderProgram.cpp src/rendering/ShaderProgram.h src/rendering/Shader.cpp src/rendering/Shader.h src/game/Chunk.cpp src/game/Chunk.h src/game/World.cpp src/game/World.h src/game/Block.cpp src/game/Block.h src/math/ShortRayCast.cpp src/math/ShortRayCast.h src/game/Gui.cpp src/game/Gui.h src/game/PauseMenu.cpp src/game/PauseMenu.h src/game/Scene.cpp src/game/Scene.h src/game/Application.cpp src/game/Application.h)
 
 target_compile_options(ogl PRIVATE $<$<CXX_COMPILER_ID:MSVC>: /W4 /WX> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>: -Wall -Wextra -Wpedantic>)
 target_link_libraries(ogl PRIVATE OpenGL::GL OpenGL::GLU glfw glad assimp stb_image imgui

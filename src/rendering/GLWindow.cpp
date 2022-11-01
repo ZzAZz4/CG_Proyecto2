@@ -151,3 +151,8 @@ void GLWindow::EnableCulling (int cullFace, int spinDirection) const {
     glFrontFace(spinDirection);
 }
 
+void GLWindow::SetActive (GLWindow* window) {
+    active_window = window;
+    glfwMakeContextCurrent(window->Handle);
+}
+

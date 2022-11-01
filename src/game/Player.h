@@ -3,7 +3,7 @@
 #ifndef OGL_PLAYER_H
 #define OGL_PLAYER_H
 
-#include "types.h"
+#include "../math/types.h"
 #include "Camera.h"
 #include "Block.h"
 #include "World.h"
@@ -26,8 +26,9 @@ struct PlayerSettings {
 
 struct Player {
     Camera camera {glm::vec3(0.0f, 2.0f, 0.0f), 90.f, 0.f};
-    ActionFlags action_flags;
     World* world = nullptr;
+    ActionFlags action_flags;
+
     float speed = 2.5f;
     float mouseSensitivity = 0.1f;
 
@@ -42,6 +43,7 @@ struct Player {
     void OnResize(int width, int height);
     void OnMouseScroll(double xoffset, double yoffset);
     void OnMouseClick(int button, int action, int mods);
+
 };
 
 #endif //OGL_PLAYER_H

@@ -21,7 +21,8 @@ vec4 calculate_color() {
                 texcoord.w - 1.0
             )
         );
-    } else {
+    }
+    else {
         return texture(tex,
             vec3(
                 closest(fract(texcoord.x + texcoord.y), 16),

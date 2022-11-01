@@ -3,7 +3,7 @@
 #ifndef OGL_TEXTURE_H
 #define OGL_TEXTURE_H
 
-#include "types.h"
+#include "../math/types.h"
 #include <string_view>
 
 struct Texture2D {

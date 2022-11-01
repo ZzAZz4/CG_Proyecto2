@@ -1,6 +1,7 @@
 
 #include "Block.h"
 #include "World.h"
+#include "Camera.h"
 
 constexpr static int ilog2 (int n) {
     int r = 0;
@@ -28,7 +29,12 @@ void World::Update () {
     }
 }
 
-void World::Render () {
+void World::Render (const Camera* camera) {
+    shader->Bind();
+
+    shader->setMat4("projection", camera->Projection);
+    shader->setMat4("view", camera->View);
+
     for (int i = 0; i < (int) std::size(chunks); i++) {
         for (int j = 0; j < (int) std::size(chunks[i]); j++) {
             if (chunks[i][j] != nullptr) {

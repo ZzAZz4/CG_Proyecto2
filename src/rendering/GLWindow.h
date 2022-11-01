@@ -3,7 +3,8 @@
 #ifndef OGL_GLWINDOW_H
 #define OGL_GLWINDOW_H
 
-#include "types.h"
+#include "../math/types.h"
+#include <memory>
 
 using KeyCallback = void (*) (void*, int key, int scancode, int action, int mods);
 using MouseButtonCallback = void (*) (void*, int button, int action, int mods);
@@ -22,6 +23,8 @@ struct WindowCallbackInfo {
 };
 
 struct GLWindow {
+    inline static GLWindow* active_window = nullptr;
+
     WindowCallbackInfo callbackInfo;
     struct GLFWwindow* Handle;
     int Width;
@@ -46,6 +49,8 @@ struct GLWindow {
 
     void EnableDepthTest () const;
     void EnableCulling(int cullFace, int spinDirection) const;
+
+    static void SetActive (GLWindow* window);
 
 private:
     static void OnKeyEvent (GLFWwindow* window, int key, int scancode, int action, int mode);

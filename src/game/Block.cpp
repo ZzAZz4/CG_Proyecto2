@@ -1,7 +1,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "ShaderProgram.h"
+#include "../rendering/ShaderProgram.h"
 #include <stb_image.h>
 #include <stdexcept>
 #include "Block.h"
@@ -36,7 +36,6 @@ void Block::Init (const ShaderProgram& program, std::string_view textureFile) {
 
     const auto subimage_width = width / 16;
     const auto subimage_height = height / 16;
-
 
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D_ARRAY, textureID);

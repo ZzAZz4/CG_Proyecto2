@@ -3,7 +3,7 @@
 #ifndef OGL_CHUNK_H
 #define OGL_CHUNK_H
 
-#include "types.h"
+#include "../math/types.h"
 
 struct Chunk {
     constexpr static int CHUNK_SIZE = 32;

@@ -16,6 +16,8 @@ namespace Block {
         Grass = 1,
         Stone = 2,
         Wood = 5,
+        Brick = 8,
+        Glass = 50,
         NUM_BLOCKS,
     };
 

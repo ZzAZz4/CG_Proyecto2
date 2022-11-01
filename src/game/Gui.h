@@ -3,7 +3,7 @@
 #ifndef OGL_GUI_H
 #define OGL_GUI_H
 
-#include "GLWindow.h"
+#include "../rendering/GLWindow.h"
 
 class Gui {
 public:
