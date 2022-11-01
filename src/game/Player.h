@@ -29,7 +29,7 @@ struct Player {
 
     float speed = 2.5f;
     float mouseSensitivity = 0.1f;
-    float inSurvival = true;
+    float inSurvival = false;
 
     uint8_t heldBlock = Block::Grass;
 

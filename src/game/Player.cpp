@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "../math/ShortRayCast.h"
+#include "PlayerPhysics.h"
 #include "Time.h"
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -36,25 +37,10 @@ void Player::Update() {
         posOffset -= glm::vec3(0, velocity, 0);
 
     if (inSurvival) {
-        if (posOffset != glm::vec3(0, 0, 0)) {
-            glm::vec3 newPosition = this->camera.Position + posOffset;
-            uint8_t block = world->GetBlock(newPosition.x, newPosition.y, newPosition.z);
-
-            // TODO: Dejar al jugador justo antes de chocar con el bloque
-
-            if (block != Block::Air) {
-                glm::vec3 dir = this->camera.Right * velocity;
-                dir = glm::vec3(dir.z, dir.y, dir.x);
-                if (this->action_flags.forward || this->action_flags.right)
-                    this->camera.Position += dir;
-                if (this->action_flags.backward || this->action_flags.left)
-                    this->camera.Position -= dir;
-            } else {
-                this->camera.Position = newPosition;
-            }
-        }
+        this->camera.Position = PlayerPhysics::offsetedPosition(*this, *this->world, posOffset, velocity);
+    } else {
+        this->camera.Position += posOffset;
     }
-
 
     this->camera.Update();
 }
