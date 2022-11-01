@@ -34,14 +34,10 @@ void Player::Update () {
         //TODO: Dejar al jugador justo antes de chocar con el bloque
 
         if (block != Block::Air) {
-            if (posOffset.x != 0) { 
-                if(posOffset.x > 0) this->camera.Position += (velocity * glm::vec3(actualFront.z,0,0));
-                else this->camera.Position -= (velocity * glm::vec3(actualFront.z,0,0));
-            }
-            else { 
-                if(posOffset.z > 0) this->camera.Position += (velocity * glm::vec3(0,0,actualFront.x)); 
-                else this->camera.Position -= (velocity * glm::vec3(0,0,actualFront.x));
-            }
+            glm::vec3 dir = this->camera.Right * velocity;
+            dir = glm::vec3 (dir.z, dir.y, dir.x);
+            if(this->action_flags.forward || this->action_flags.right) this->camera.Position += dir;
+            if(this->action_flags.backward || this->action_flags.left) this->camera.Position -= dir;
         }
         else { this->camera.Position = newPosition; }
     }
