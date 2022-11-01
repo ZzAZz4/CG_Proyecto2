@@ -43,8 +43,7 @@ void Player::Update() {
         posOffset -= glm::vec3(0, velocity, 0);
 
     if (inSurvival) {
-        this->camera.Position =
-            PlayerPhysics::offsetedPosition(*this, *this->world, posOffset, velocity);
+        this->camera.Position = PlayerPhysics::offsetedPosition(*this, *this->world, posOffset);
     } else {
         this->camera.Position += posOffset;
     }
