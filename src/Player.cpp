@@ -31,8 +31,8 @@ void Player::Update (const World* world) {
         //TODO: Dejar al jugador justo antes de chocar con el bloque
         
         if(block != Block::Air) {
-            if (posOffset.x != 0) this->camera.Position.z += posOffset.x;
-            else this->camera.Position.x += posOffset.z;
+            if (posOffset.x != 0) this->camera.Position.z += (velocity*actualFront.x);
+            else this->camera.Position.x += (velocity*actualFront.z);
         }
         else this->camera.Position = newPosition;
     }

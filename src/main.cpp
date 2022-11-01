@@ -71,7 +71,7 @@ int main () {
     Time::Init();
     Block::Init(*shader, "../res/textures/terrain.png");
 
-    player.camera.Position = glm::vec3(100,0,100);
+   // player.camera.Position = glm::vec3(100,0,100);
     world = std::make_unique<World>();
 
     OnResize(nullptr, window->Width, window->Height);
