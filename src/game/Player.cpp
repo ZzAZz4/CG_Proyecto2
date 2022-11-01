@@ -16,12 +16,11 @@ static glm::vec3 spawnPosition(World* world) {
             World::DIAMETER_Z / 2};
 }
 
-Player::Player(World* world, PlayerSettings settings)
-    : camera(spawnPosition(world), 90.f, 0.f), world(world), speed(settings.speed),
-      mouseSensitivity(settings.mouseSensitivity) {}
+Player::Player(World* world)
+    : camera(spawnPosition(world), 90.f, 0.f), world(world) {}
 
 void Player::Update() {
-    float velocity = (this->actionFlags.run ? this->speed : this->runSpeed) * Time::deltaTime;
+    float velocity = (this->actionFlags.run ? this->runSpeed : this->speed) * Time::deltaTime;
 
     glm::vec3 posOffset = glm::vec3(0, 0, 0);
     glm::vec3 flatFront = glm::normalize(glm::vec3(this->camera.Front.x, 0, this->camera.Front.z));

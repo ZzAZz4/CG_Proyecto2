@@ -15,18 +15,14 @@ struct ActionFlags {
     bool run : 1 = false;
 };
 
-struct PlayerSettings {
-    float speed = 5.f;
-    float mouseSensitivity = 0.1f;
-};
 
 struct Player {
     Camera camera;
     World* world = nullptr;
     ActionFlags actionFlags;
 
-    float speed = 2.5f; // 0 - 10
-    float runSpeed = 4.0f; // 0 - 20
+    float speed = 5.f; // 0 - 10
+    float runSpeed = 9.0f; // 0 - 20
     float gravity = -26.f;
     float impulse = 8.5f;
     float yAddedVelocity = 0.f;
@@ -37,7 +33,7 @@ struct Player {
 
     uint8_t heldBlock = Block::Grass;
 
-    Player(World* world, PlayerSettings settings = PlayerSettings());
+    Player(World* world);
 
     void Respawn();
     void Update();
