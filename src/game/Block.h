@@ -4,7 +4,7 @@
 #include <array>
 #include <memory>
 #include <string_view>
-#include <unordered_map>
+#include <map>
 
 struct ShaderProgram;
 
@@ -23,7 +23,7 @@ namespace Block {
 
 } // namespace Block
 
-static std::unordered_map<std::string, uint8_t> blockMap{{"Air", Block::Air},
+static std::map<std::string, uint8_t> blockMap{{"Air", Block::Air},
                                                          {"Grass", Block::Grass},
                                                          {"Wood", Block::Wood},
                                                          {"Brick", Block::Brick},

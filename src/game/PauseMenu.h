@@ -8,11 +8,12 @@ class PauseMenu : public Gui {
 public:
     PauseMenu(const GLWindow& window, Player* player);
     ~PauseMenu() override = default;
+    bool showSubMenu = false;
     Player* player;
 
     void SetupFrame() override;
     void changeHeldBlock();
-    bool showSubMenu = false;
+    void switchInSurvival();
 };
 
 #endif // OGL_PAUSEMENU_H
