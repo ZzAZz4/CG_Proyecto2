@@ -16,12 +16,12 @@ struct ActionFlags {
 };
 
 struct PlayerSettings {
-    float speed = 2.5f;
+    float speed = 5.f;
     float mouseSensitivity = 0.1f;
 };
 
 struct Player {
-    Camera camera{glm::vec3(0.0f, 2.0f, 0.0f), 90.f, 0.f};
+    Camera camera;
     World* world = nullptr;
     ActionFlags action_flags;
 
@@ -33,6 +33,7 @@ struct Player {
 
     Player(World* world, PlayerSettings settings = PlayerSettings());
 
+    void Respawn();
     void Update();
 
     void OnMouseMove(double xpos, double ypos);

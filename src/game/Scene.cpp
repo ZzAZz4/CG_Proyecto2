@@ -57,3 +57,8 @@ void Scene::OnMouseClicked(int button, int action, int mods) {
         player.OnMouseClick(button, action, mods);
     }
 }
+
+void Scene::Randomize() {
+    world.Randomize();
+    player.Respawn();
+}

@@ -59,6 +59,12 @@ void Application::LoadScene(const std::string& sceneName) {
     OnResize(window.Width, window.Height);
 }
 
+void Application::RandomScene() {
+    scene = std::make_unique<Scene>();
+    scene->Randomize();
+    OnResize(window.Width, window.Height);
+}
+
 void Application::OnKeyPressedCallback(void* self, int key, int scancode, int action, int mods) {
     static_cast<Application*>(self)->OnKeyPressed(key, scancode, action, mods);
 }

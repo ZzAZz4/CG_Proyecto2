@@ -42,12 +42,6 @@ float ShortRayCast::BeforeHit(const World* world) const {
         glm::ivec3 pos = glm::ivec3(start + dir * time);
 
         if (world->GetBlock((int)pos.x, (int)pos.y, (int)pos.z) != Block::Air) {
-            printf("past_time: %f, time: %f\n", past_time, time);
-            printf("past_block: %d, block: %d\n",
-                   world->GetBlock((int)(start + dir * past_time).x,
-                                   (int)(start + dir * past_time).y,
-                                   (int)(start + dir * past_time).z),
-                   world->GetBlock((int)pos.x, (int)pos.y, (int)pos.z));
             return past_time;
         }
         past_time = time;

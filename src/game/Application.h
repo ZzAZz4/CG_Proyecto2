@@ -13,6 +13,7 @@ struct Application {
     Application();
 
     void LoadScene(const std::string& sceneName);
+    void RandomScene();
 
     void Run();
 

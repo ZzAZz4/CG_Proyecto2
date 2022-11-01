@@ -13,6 +13,8 @@ struct Scene {
 
     Scene();
 
+    void Randomize();
+
     void Update();
     void Render();
 

@@ -3,7 +3,7 @@
 int main() {
     Application application;
     // TODO: loadScene is hardcoded xd
-    application.LoadScene("scene1");
+    application.RandomScene();
     application.Run();
 
     return 0;

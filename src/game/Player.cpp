@@ -10,8 +10,15 @@ static bool firstMouse = true;
 static float lastX = nanf("");
 static float lastY = nanf("");
 
+static glm::vec3 spawnPosition(World* world) {
+    return {World::DIAMETER_X / 2,
+            world->GetHeightAt(World::DIAMETER_X / 2, World::DIAMETER_Z / 2) + 2,
+            World::DIAMETER_Z / 2};
+}
+
 Player::Player(World* world, PlayerSettings settings)
-    : world(world), speed(settings.speed), mouseSensitivity(settings.mouseSensitivity) {}
+    : camera(spawnPosition(world), 90.f, 0.f), world(world), speed(settings.speed),
+      mouseSensitivity(settings.mouseSensitivity) {}
 
 void Player::Update() {
     float velocity = this->speed * Time::deltaTime;
@@ -108,3 +115,5 @@ void Player::OnMouseClick(int button, int action, int mods) {
         }
     }
 }
+
+void Player::Respawn() { this->camera.Position = spawnPosition(this->world) + glm::vec3(0, 3, 0); }
