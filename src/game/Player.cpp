@@ -42,7 +42,7 @@ void Player::Update() {
             posOffset += glm::vec3(0, velocity, 0);
         } else if (touchesGround) {
             touchesGround = false;
-            this->y_added_velocity = 5.f;
+            this->y_added_velocity = this->impulse;
         }
     }
     if (this->action_flags.down) {

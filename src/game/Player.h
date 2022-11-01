@@ -28,6 +28,7 @@ struct Player {
     float speed = 2.5f;
 
     float gravity = -9.81f;
+    float impulse = 5.f;
     float y_added_velocity = 0.f;
 
     float mouseSensitivity = 0.1f;
