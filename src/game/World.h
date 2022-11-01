@@ -3,9 +3,9 @@
 #ifndef OGL_WORLD_H
 #define OGL_WORLD_H
 
-#include "Chunk.h"
 #include "../rendering/ShaderProgram.h"
 #include "Camera.h"
+#include "Chunk.h"
 #include <memory>
 
 struct World {
@@ -17,8 +17,7 @@ struct World {
     uint8_t GetBlock(int x, int y, int z) const;
     void SetBlock(int x, int y, int z, uint8_t block);
     void Update();
-    void Render (const Camera* camera);
+    void Render(const Camera* camera);
 };
 
-
-#endif //OGL_WORLD_H
+#endif // OGL_WORLD_H

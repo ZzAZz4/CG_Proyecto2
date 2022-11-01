@@ -1,16 +1,16 @@
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "Block.h"
 #include "../rendering/ShaderProgram.h"
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+#include <memory>
 #include <stb_image.h>
 #include <stdexcept>
-#include "Block.h"
-#include <memory>
 
 static unsigned int textureID = 0;
 
-static void copy_subimage (int image, int width, int channels, const unsigned char* data,
-                           int subimage_width, int subimage_height, unsigned char* subimage_data) {
+static void copy_subimage(int image, int width, int channels, const unsigned char* data,
+                          int subimage_width, int subimage_height, unsigned char* subimage_data) {
     int i = 0;
     for (int y = 0; y < subimage_height; ++y) {
         for (int x = 0; x < subimage_width; ++x) {
@@ -24,8 +24,7 @@ static void copy_subimage (int image, int width, int channels, const unsigned ch
     }
 }
 
-
-void Block::Init (const ShaderProgram& program, std::string_view textureFile) {
+void Block::Init(const ShaderProgram& program, std::string_view textureFile) {
     int width, height, channels;
     unsigned char* data = stbi_load(textureFile.data(), &width, &height, &channels, 0);
     if (!data) {
@@ -39,12 +38,16 @@ void Block::Init (const ShaderProgram& program, std::string_view textureFile) {
 
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D_ARRAY, textureID);
-    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA, subimage_width, subimage_height, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA, subimage_width, subimage_height, 256, 0, GL_RGBA,
+                 GL_UNSIGNED_BYTE, nullptr);
 
-    auto subimage_data = std::make_unique<unsigned char[]>(subimage_width * subimage_height * channels);
+    auto subimage_data =
+        std::make_unique<unsigned char[]>(subimage_width * subimage_height * channels);
     for (int image = 0; image < 256; ++image) {
-        copy_subimage(image, width, channels, data, subimage_width, subimage_height, subimage_data.get());
-        glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, image, subimage_width, subimage_height, 1, GL_RGBA, GL_UNSIGNED_BYTE, subimage_data.get());
+        copy_subimage(image, width, channels, data, subimage_width, subimage_height,
+                      subimage_data.get());
+        glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, image, subimage_width, subimage_height, 1,
+                        GL_RGBA, GL_UNSIGNED_BYTE, subimage_data.get());
     }
     stbi_image_free(data);
 
@@ -52,5 +55,4 @@ void Block::Init (const ShaderProgram& program, std::string_view textureFile) {
 
     program.Bind();
     program.setInt("tex", 0);
-
 }

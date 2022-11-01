@@ -11,8 +11,8 @@ const float PITCH = 0.0f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
 
-
-// An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
+// An abstract camera class that processes input and calculates the corresponding Euler Angles,
+// Vectors and Matrices for use in OpenGL
 class Camera {
 public:
     glm::mat4 Projection{};
@@ -29,7 +29,8 @@ public:
     float AspectRatio = nanf("");
 
     // constructor with vectors
-    Camera (const glm::vec3& position, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), Zoom(ZOOM) {
+    Camera(const glm::vec3& position, float yaw, float pitch)
+        : Front(glm::vec3(0.0f, 0.0f, -1.0f)), Zoom(ZOOM) {
         Position = position;
         Yaw = yaw;
         Pitch = pitch;
@@ -40,11 +41,11 @@ public:
     }
 
 private:
-    void RecalculateProjection () {
+    void RecalculateProjection() {
         Projection = glm::perspective(glm::radians(Zoom), this->AspectRatio, 0.1f, 100.0f);
     }
 
-    void RecalculateView () {
+    void RecalculateView() {
         glm::vec3 front;
         front.x = glm::cos(glm::radians(Yaw)) * glm::cos(glm::radians(Pitch));
         front.y = glm::sin(glm::radians(Pitch));

@@ -3,7 +3,6 @@
 #ifndef OGL_SHORTRAYCAST_H
 #define OGL_SHORTRAYCAST_H
 
-#include "types.h"
 #include "../game/World.h"
 #include <optional>
 
@@ -17,5 +16,4 @@ struct ShortRayCast {
     float BeforeHit(const World* world) const;
 };
 
-
-#endif //OGL_SHORTRAYCAST_H
+#endif // OGL_SHORTRAYCAST_H

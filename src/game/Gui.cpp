@@ -1,11 +1,10 @@
 
-#include <backends/imgui_impl_opengl3.h>
-#include <backends/imgui_impl_glfw.h>
-#include "imgui.h"
 #include "Gui.h"
+#include "imgui.h"
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 
-
-Gui::Gui (const GLWindow& window) {
+Gui::Gui(const GLWindow& window) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
@@ -13,25 +12,24 @@ Gui::Gui (const GLWindow& window) {
     ImGui_ImplOpenGL3_Init("#version 450 core");
 }
 
-Gui::~Gui () {
+Gui::~Gui() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 }
 
-void Gui::CreateFrame () {
+void Gui::CreateFrame() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-
 }
 
-void Gui::EndFrame () {
+void Gui::EndFrame() {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void Gui::Render () {
+void Gui::Render() {
     CreateFrame();
     SetupFrame();
     EndFrame();
