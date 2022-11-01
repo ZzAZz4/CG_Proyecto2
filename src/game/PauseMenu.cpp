@@ -50,7 +50,11 @@ void PauseMenu::switchInSurvival(){
     if(!showSubMenu){
         ImGui::TextColored(ImVec4(1,1,0,1), "Play in survival (activate gravity and colisions)");
         ToggleButton("Switch to survival mode", &(player->inSurvival));
-        if(player->inSurvival) ImGui::Text("You are currently playing on Survival mode");
+        if(player->inSurvival) {
+            ImGui::Text("You are currently playing on Survival mode");
+            ImGui::SliderFloat("Gravity", &player->gravity, -100.0f, 0.0f);
+            ImGui::SliderFloat("Impulse", &player->impulse, 0.0f, 20.0f);
+        }
         else ImGui::Text("Touch the toggle button to switch to Survival mode");
     }
 }

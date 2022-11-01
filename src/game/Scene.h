@@ -6,6 +6,7 @@
 #include "World.h"
 
 struct Scene {
+    std::string sceneName;
     World world;
     Player player;
     PauseMenu pauseMenu;
