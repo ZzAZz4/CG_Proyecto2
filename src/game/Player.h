@@ -25,12 +25,12 @@ struct Player {
     World* world = nullptr;
     ActionFlags actionFlags;
 
-    float speed = 2.5f;
-    float runSpeed = 4.0f;
+    float speed = 2.5f; // 0 - 10
+    float runSpeed = 4.0f; // 0 - 20
     float gravity = -26.f;
     float impulse = 8.5f;
     float yAddedVelocity = 0.f;
-    float mouseSensitivity = 0.1f;
+    float mouseSensitivity = 0.1f; // 0 - 1
 
     bool inSurvival = false;
     bool touchesGround = false;

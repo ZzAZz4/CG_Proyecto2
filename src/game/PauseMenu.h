@@ -14,6 +14,7 @@ public:
     void SetupFrame() override;
     void changeHeldBlock();
     void switchInSurvival();
+    void changePlayerSettings();
 };
 
 #endif // OGL_PAUSEMENU_H

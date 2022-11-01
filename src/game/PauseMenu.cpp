@@ -48,6 +48,12 @@ void PauseMenu::changeHeldBlock() {
     }
 }
 
+void PauseMenu::changePlayerSettings() {
+    ImGui::SliderFloat("Player speed", &player->speed, 0.0f, 10.0f);
+    ImGui::SliderFloat("Speed on running", &player->runSpeed, 0.0f, 20.0f);
+    ImGui::SliderFloat("Mouse sensitivity", &player->mouseSensitivity, 0.0f, 1.0f);
+}
+
 void PauseMenu::switchInSurvival() {
     if (!showSubMenu) {
         ImGui::TextColored(ImVec4(1, 1, 0, 1), "Play in survival (activate gravity and colisions)");
@@ -56,8 +62,10 @@ void PauseMenu::switchInSurvival() {
             ImGui::Text("You are currently playing on Survival mode");
             ImGui::SliderFloat("Gravity", &player->gravity, -100.0f, 0.0f);
             ImGui::SliderFloat("Impulse", &player->impulse, 0.0f, 20.0f);
-        } else
+        } else {
             ImGui::Text("Touch the toggle button to switch to Survival mode");
+        }
+        changePlayerSettings();
     }
 }
 
@@ -65,6 +73,5 @@ void PauseMenu::SetupFrame() {
     ImGui::Begin("[ PAUSE ]");
     changeHeldBlock();
     switchInSurvival();
-
     ImGui::End();
 }
