@@ -4,7 +4,6 @@
 #define OGL_SCENE_H
 
 #include "World.h"
-#include "Player.h"
 #include "PauseMenu.h"
 
 struct Scene {

@@ -1,5 +1,3 @@
-
-
 #ifndef OGL_PLAYER_H
 #define OGL_PLAYER_H
 

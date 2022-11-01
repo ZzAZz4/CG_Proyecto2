@@ -6,7 +6,7 @@
 Scene::Scene () :
     world(),
     player(&world),
-    pauseMenu(*GLWindow::active_window) {
+    pauseMenu(*GLWindow::active_window, &player) {
     world.shader = std::make_unique<ShaderProgram>(
         Shader::FromFile(GL_VERTEX_SHADER, "../res/shaders/minecube_vs.glsl"),
         Shader::FromFile(GL_FRAGMENT_SHADER, "../res/shaders/minecube_fs.glsl"));
