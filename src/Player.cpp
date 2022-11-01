@@ -89,16 +89,14 @@ void Player::OnMouseClick (int button, int action, int mods) {
 
     ShortRayCast rayCast{this->camera.Position, this->camera.Front, 6.0f};
     if (button == GLFW_MOUSE_BUTTON_LEFT) {
-        float hit = rayCast.Hit(world);
-        if (hit != -1.0f) {
-            glm::ivec3 res = this->camera.Position + (this->camera.Front * hit);
+        if (const float hit = rayCast.Hit(world); hit != -1.0f) {
+            const glm::ivec3 res = this->camera.Position + (this->camera.Front * hit);
             world->SetBlock(res.x, res.y, res.z, Block::Air);
         }
     } else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-        float hit = rayCast.BeforeHit(world);
-        if (hit != -1.0f) {
+        if (const float hit = rayCast.BeforeHit(world); hit != -1.0f) {
             glm::ivec3 res = this->camera.Position + (this->camera.Front * hit);
-            world->SetBlock(res.x, res.y, res.z, Block::Grass);
+            world->SetBlock(res.x, res.y, res.z, this->heldBlock);
         }
     }
 }

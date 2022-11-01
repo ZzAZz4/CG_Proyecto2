@@ -4,7 +4,7 @@
 #include "Block.h"
 
 static float nextAxisHit(const glm::vec3& origin, const glm::vec3& dir, float currentTime) {
-    glm::vec3 pos = origin + dir * (currentTime + 0.005f);
+    glm::vec3 pos = origin + dir * (currentTime + 0.00001f);
 
     int nextX = dir.x > 0 ? floor(pos.x) + 1 : ceil(pos.x) - 1;
     int nextY = dir.y > 0 ? floor(pos.y) + 1 : ceil(pos.y) - 1;

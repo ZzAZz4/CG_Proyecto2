@@ -2,15 +2,13 @@
 #include <GLFW/glfw3.h>
 
 #include "GLWindow.h"
+#include "PauseMenu.h"
 #include "Texture.h"
 #include "Player.h"
 #include "ShaderProgram.h"
 #include "Time.h"
 #include "Chunk.h"
 #include <memory>
-#include <imgui.h>
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
 
 void Render ();
 
@@ -19,6 +17,7 @@ std::unique_ptr<ShaderProgram> shader;
 std::unique_ptr<Texture2D> texture;
 std::unique_ptr<World> world;
 std::unique_ptr<Player> player;
+std::unique_ptr<PauseMenu> pauseMenu;
 
 bool isMenuOpen = false;
 
@@ -35,21 +34,28 @@ void OnResize (void*, i32 width, i32 height) {
 }
 
 void OnKeyPressed (void*, i32 key, i32 scancode, i32 action, i32 mods) {
-    if (action == GLFW_REPEAT) return;
-
+    if (action == GLFW_REPEAT) {
+        return;
+    }
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         isMenuOpen = !isMenuOpen;
         window->SetMouseLock(!isMenuOpen);
     }
-    player->OnKeyPress(key, scancode, action, mods);
+    if (!isMenuOpen) {
+        player->OnKeyPress(key, scancode, action, mods);
+    }
 }
 
 void OnMouseMove (void*, f64 xposd, f64 yposd) {
-    player->OnMouseMove(xposd, yposd);
+    if (!isMenuOpen) {
+        player->OnMouseMove(xposd, yposd);
+    }
 }
 
 void OnMouseScroll (void*, f64 xoffset, f64 yoffset) {
-    player->OnMouseScroll(xoffset, yoffset);
+    if (!isMenuOpen) {
+        player->OnMouseScroll(xoffset, yoffset);
+    }
 }
 
 void OnMouseClicked (void*, i32 button, i32 action, i32 mods) {
@@ -72,7 +78,6 @@ int main () {
 
     window->SetMouseLock(true);
     window->EnableDepthTest();
-//    window->EnableCulling(GL_BACK, GL_CW);
     window->clearColor = { 0.4f, 0.6f, 0.9f, 1.0f };
 
 
@@ -99,11 +104,7 @@ int main () {
 
     OnResize(nullptr, window->Width, window->Height);
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(window->Handle, true);
-    ImGui_ImplOpenGL3_Init("#version 450 core");
+    pauseMenu = std::make_unique<PauseMenu>(*window);
 
     while (!window->ShouldClose()) {
         window->PollEvents();
@@ -115,9 +116,6 @@ int main () {
         window->SwapBuffers();
     }
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
     return 0;
 }
 
@@ -130,18 +128,10 @@ void Render () {
     world->shader = shader.get();
     world->Render();
 
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
     if (isMenuOpen) {
-        ImGui::Begin("Menu");
-        ImGui::Text("Hello, world!");
-        ImGui::End();
+        pauseMenu->Render();
     }
 
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 
