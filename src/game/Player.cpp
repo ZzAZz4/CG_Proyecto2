@@ -20,42 +20,43 @@ Player::Player(World* world, PlayerSettings settings)
     : camera(spawnPosition(world), 90.f, 0.f), world(world), speed(settings.speed),
       mouseSensitivity(settings.mouseSensitivity) {}
 
-
 void Player::Update() {
-    float velocity = (this->action_flags.run ? this->speed : this->runSpeed) * Time::deltaTime;
+    float velocity = (this->actionFlags.run ? this->speed : this->runSpeed) * Time::deltaTime;
 
     glm::vec3 posOffset = glm::vec3(0, 0, 0);
     glm::vec3 flatFront = glm::normalize(glm::vec3(this->camera.Front.x, 0, this->camera.Front.z));
 
-    if (this->action_flags.forward)
+    if (this->actionFlags.forward)
         posOffset += flatFront * velocity;
-    if (this->action_flags.backward)
+    if (this->actionFlags.backward)
         posOffset -= flatFront * velocity;
-    if (this->action_flags.right)
+    if (this->actionFlags.right)
         posOffset += this->camera.Right * velocity;
-    if (this->action_flags.left)
+    if (this->actionFlags.left)
         posOffset -= this->camera.Right * velocity;
-    if (this->action_flags.up) {
+    if (this->actionFlags.up) {
         if (!inSurvival) {
             posOffset += glm::vec3(0, velocity, 0);
         } else if (touchesGround) {
             touchesGround = false;
-            this->y_added_velocity = this->impulse;
+            this->yAddedVelocity = this->impulse;
         }
     }
-    if (this->action_flags.down) {
+    if (this->actionFlags.down) {
         if (!inSurvival) {
             posOffset -= glm::vec3(0, velocity, 0);
         }
     }
 
     if (inSurvival) {
-        y_added_velocity = touchesGround ? 0 : y_added_velocity + gravity * Time::deltaTime;
-        posOffset.y += y_added_velocity * Time::deltaTime;
+        yAddedVelocity =
+            touchesGround ? 0
+                          : glm::clamp(yAddedVelocity + gravity * Time::deltaTime, -30.0f, 30.0f);
+        posOffset.y += yAddedVelocity * Time::deltaTime;
         this->camera.Position = PlayerPhysics::result(*this, *this->world, posOffset);
     } else {
         touchesGround = false;
-        y_added_velocity = 0;
+        yAddedVelocity = 0;
         this->camera.Position += posOffset;
     }
 
@@ -88,19 +89,19 @@ void Player::OnResize(int width, int height) {
 
 void Player::OnKeyPress(int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_W)
-        this->action_flags.forward = action == GLFW_PRESS;
+        this->actionFlags.forward = action == GLFW_PRESS;
     if (key == GLFW_KEY_S)
-        this->action_flags.backward = action == GLFW_PRESS;
+        this->actionFlags.backward = action == GLFW_PRESS;
     if (key == GLFW_KEY_A)
-        this->action_flags.left = action == GLFW_PRESS;
+        this->actionFlags.left = action == GLFW_PRESS;
     if (key == GLFW_KEY_D)
-        this->action_flags.right = action == GLFW_PRESS;
+        this->actionFlags.right = action == GLFW_PRESS;
     if (key == GLFW_KEY_SPACE)
-        this->action_flags.up = action == GLFW_PRESS;
+        this->actionFlags.up = action == GLFW_PRESS;
     if (key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT)
-        this->action_flags.down = action == GLFW_PRESS;
+        this->actionFlags.down = action == GLFW_PRESS;
     if (key == GLFW_KEY_LEFT_CONTROL || key == GLFW_KEY_RIGHT_CONTROL)
-        this->action_flags.run = action == GLFW_PRESS;
+        this->actionFlags.run = action == GLFW_PRESS;
 }
 
 void Player::OnMouseScroll(double xoffset, double yoffset) {
