@@ -14,6 +14,8 @@ struct Scene {
     Scene();
 
     void Randomize();
+    void Save(std::string file);
+    void Load(std::string_view file);
 
     void Update();
     void Render();

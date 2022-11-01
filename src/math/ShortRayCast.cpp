@@ -24,7 +24,6 @@ ShortRayCast::ShortRayCast(const glm::vec3& start, const glm::vec3& dir, float m
 }
 
 float ShortRayCast::Hit(const World* world) const {
-
     for (float time = 0.0f; time < max_distance;) {
         glm::ivec3 pos = glm::ivec3(start + dir * time);
 

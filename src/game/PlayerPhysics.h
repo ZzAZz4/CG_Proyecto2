@@ -10,12 +10,14 @@
 struct AABB {
     glm::vec3 min;
     glm::vec3 max;
+
+    AABB operator+(const glm::vec3& vec) const { return {min + vec, max + vec}; }
 };
 
 namespace PlayerPhysics {
     const AABB playerAABB = {glm::vec3(-0.3f, -1.6f, -0.3f), glm::vec3(0.3f, 0.2f, 0.3f)};
-    glm::vec3 offsetedPosition(const Player& player, const World& world, const glm::vec3& posOffset,
-                               float velocity);
+    glm::vec3 offsetedPosition(const Player& player, const World& world,
+                               const glm::vec3& posOffset);
 }; // namespace PlayerPhysics
 
 #endif // OGL_PLAYERPHYSICS_H

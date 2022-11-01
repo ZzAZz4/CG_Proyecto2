@@ -62,3 +62,5 @@ void Scene::Randomize() {
     world.Randomize();
     player.Respawn();
 }
+
+void Scene::Load(std::string_view file) {}
