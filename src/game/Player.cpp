@@ -20,31 +20,44 @@ Player::Player(World* world, PlayerSettings settings)
     : camera(spawnPosition(world), 90.f, 0.f), world(world), speed(settings.speed),
       mouseSensitivity(settings.mouseSensitivity) {}
 
+
 void Player::Update() {
     float velocity = this->speed * Time::deltaTime;
 
     glm::vec3 posOffset = glm::vec3(0, 0, 0);
-    glm::vec3 actualFront =
-        glm::normalize(glm::vec3(this->camera.Front.x, 0, this->camera.Front.z));
+    glm::vec3 flatFront = glm::normalize(glm::vec3(this->camera.Front.x, 0, this->camera.Front.z));
 
     if (this->action_flags.run)
         velocity *= 2.0f;
     if (this->action_flags.forward)
-        posOffset += actualFront * velocity;
+        posOffset += flatFront * velocity;
     if (this->action_flags.backward)
-        posOffset -= actualFront * velocity;
+        posOffset -= flatFront * velocity;
     if (this->action_flags.right)
         posOffset += this->camera.Right * velocity;
     if (this->action_flags.left)
         posOffset -= this->camera.Right * velocity;
-    if (this->action_flags.up)
-        posOffset += glm::vec3(0, velocity, 0);
-    if (this->action_flags.down)
-        posOffset -= glm::vec3(0, velocity, 0);
+    if (this->action_flags.up) {
+        if (!inSurvival) {
+            posOffset += glm::vec3(0, velocity, 0);
+        } else if (touchesGround) {
+            touchesGround = false;
+            this->y_added_velocity = 5.f;
+        }
+    }
+    if (this->action_flags.down) {
+        if (!inSurvival) {
+            posOffset -= glm::vec3(0, velocity, 0);
+        }
+    }
 
     if (inSurvival) {
-        this->camera.Position = PlayerPhysics::offsetedPosition(*this, *this->world, posOffset);
+        y_added_velocity = touchesGround ? 0 : y_added_velocity + gravity * Time::deltaTime;
+        posOffset.y += y_added_velocity * Time::deltaTime;
+        this->camera.Position = PlayerPhysics::result(*this, *this->world, posOffset);
     } else {
+        touchesGround = false;
+        y_added_velocity = 0;
         this->camera.Position += posOffset;
     }
 

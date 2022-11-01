@@ -26,8 +26,13 @@ struct Player {
     ActionFlags action_flags;
 
     float speed = 2.5f;
+
+    float gravity = -9.81f;
+    float y_added_velocity = 0.f;
+
     float mouseSensitivity = 0.1f;
     bool inSurvival = false;
+    bool touchesGround = false;
 
     uint8_t heldBlock = Block::Grass;
 

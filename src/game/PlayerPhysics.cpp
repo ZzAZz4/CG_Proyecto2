@@ -108,8 +108,7 @@ bool createsZNegativeCollision(const AABB& aabb, float z_dir, const World& world
     return false;
 }
 
-glm::vec3 PlayerPhysics::offsetedPosition(const Player& player, const World& world,
-                                          const glm::vec3& posOffset) {
+glm::vec3 PlayerPhysics::result(Player& player, const World& world, const glm::vec3& posOffset) {
     glm::vec3 final_direction(0.0f);
 
     float posOffsetX = posOffset.x;
@@ -126,7 +125,10 @@ glm::vec3 PlayerPhysics::offsetedPosition(const Player& player, const World& wor
 
     if (posOffsetY > 0.0f && !createsYPositiveCollision(aabb, posOffsetY, world)) {
         final_direction.y = posOffsetY;
-    } else if (posOffsetY < 0.0f && !createsYNegativeCollision(aabb, posOffsetY, world)) {
+    } else if (createsYNegativeCollision(aabb, posOffsetY, world)) {
+        player.touchesGround = true;
+    } else {
+        player.touchesGround = false;
         final_direction.y = posOffsetY;
     }
 

@@ -15,9 +15,9 @@ struct AABB {
 };
 
 namespace PlayerPhysics {
-    const AABB playerAABB = {glm::vec3(-0.3f, -1.6f, -0.3f), glm::vec3(0.3f, 0.2f, 0.3f)};
-    glm::vec3 offsetedPosition(const Player& player, const World& world,
-                               const glm::vec3& posOffset);
+    static inline const AABB playerAABB = {glm::vec3(-0.3f, -1.6f, -0.3f), glm::vec3(0.3f, 0.2f, 0.3f)};
+
+    glm::vec3 result(Player& player, const World& world, const glm::vec3& posOffset);
 }; // namespace PlayerPhysics
 
 #endif // OGL_PLAYERPHYSICS_H
