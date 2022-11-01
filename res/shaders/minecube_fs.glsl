@@ -1,6 +1,8 @@
 #version 450 core
 
 in vec4 texcoord;
+out vec4 fragColor;
+
 uniform sampler2DArray tex;
 
 const vec4 fogcolor = vec4(0.6, 0.8, 1.0, 1.0);
@@ -41,5 +43,5 @@ void main() {
     float fog = clamp(exp(-fogdensity * z * z), 0.2, 1);
 
 
-    gl_FragColor = mix(fogcolor, color, fog);
+    fragColor = mix(fogcolor, color, fog);
 }
