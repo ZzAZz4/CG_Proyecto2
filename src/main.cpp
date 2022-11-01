@@ -1,9 +1,5 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <stb_image.h>
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 #include "GLWindow.h"
 #include "Texture.h"
@@ -61,7 +57,9 @@ int main () {
 
     window->SetMouseLock(true);
     window->EnableDepthTest();
-    window->EnableCulling(GL_BACK, GL_CW);
+//    window->EnableCulling(GL_BACK, GL_CW);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     window->clearColor = { 0.4f, 0.6f, 0.9f, 1.0f };
 
 
@@ -74,17 +72,18 @@ int main () {
     Block::Init(*shader, "../res/textures/terrain.png");
 
     world = std::make_unique<World>();
-
-    OnResize(nullptr, window->Width, window->Height);
     for (int x = 0; x < 2 * Chunk::CHUNK_SIZE; x++) {
         for (int z = 0; z < 2 * Chunk::CHUNK_SIZE; z++) {
             const int y = x / Chunk::CHUNK_SIZE + z / Chunk::CHUNK_SIZE + 1;
             for (int i = 0; i < y; i++) {
-                const auto block = i == 0 ? Block::Wood : Block::Grass;
+                const auto block = i == 0 ? 50 : Block::Grass;
                 world->SetBlock(x, i, z, block);
             }
         }
     }
+
+    OnResize(nullptr, window->Width, window->Height);
+
     while (!window->ShouldClose()) {
         window->PollEvents();
         Update();
@@ -100,12 +99,10 @@ int main () {
 
 void Render () {
     shader->Bind();
-//    printf("Position: %f, %f, %f\n", player.camera.Position.x, player.camera.Position.y, player.camera.Position.z);
 
     shader->setMat4("projection", player.camera.Projection);
     shader->setMat4("view", player.camera.View);
 
-    // chunk
     world->shader = shader.get();
     world->Render();
 }
