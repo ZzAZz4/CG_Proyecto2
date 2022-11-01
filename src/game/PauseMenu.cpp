@@ -12,7 +12,9 @@ void PauseMenu::changeHeldBlock(){
         ImGui::BulletText("[ CHANGE HELD BLOCK ]");
         char newBlock [64];
         ImGui::TextColored(ImVec4(1,1,0,1), "Current blocks are:");
-        for(auto bm: blockMap) ImGui::Text("%s\n", bm.first.c_str());
+        for(const auto& bm: blockMap) {
+            ImGui::Text("%s\n", bm.first.c_str());
+        }
         ImGui::InputText("Which Block do you want to use?", newBlock, sizeof(newBlock));
         auto it = blockMap.find(newBlock);
         if(it != blockMap.end()) {
