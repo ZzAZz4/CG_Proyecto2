@@ -4,6 +4,7 @@
 #define OGL_CHUNK_H
 
 #include <cstdint>
+#include <fstream>
 
 struct Chunk {
     constexpr static int CHUNK_SIZE = 32;
@@ -22,6 +23,9 @@ struct Chunk {
     void SetBlock(int x, int y, int z, uint8_t block);
     void Update();
     void Render();
+
+    void Dump(std::ofstream& file);
+    void Load(std::ifstream& file);
 };
 
 #endif // OGL_CHUNK_H

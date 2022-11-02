@@ -5,6 +5,7 @@
 #include "Time.h"
 #include "../rendering/GLWindow.h"
 #include <glm/gtc/noise.hpp>
+#include <fstream>
 
 constexpr static int ilog2(int n) {
     int r = 0;
@@ -131,4 +132,48 @@ int World::GetHeightAt(int x, int z) const {
         }
     }
     return 0;
+}
+void World::Dump(std::ofstream& ofstream) {
+    // binary
+    ofstream.write((char*)&time, sizeof(time));
+    std::size_t lightSourcesSize = lightSources.size();
+    ofstream.write((char*)&lightSourcesSize, sizeof(lightSourcesSize));
+    for (const glm::vec3& lightSource : lightSources) {
+        ofstream.write((char*)&lightSource, sizeof(lightSource));
+    }
+    for (int i = 0; i < (int)std::size(chunks); i++) {
+        for (int j = 0; j < (int)std::size(chunks[i]); j++) {
+            if (chunks[i][j] != nullptr) {
+                ofstream.write((char*)&i, sizeof(i));
+                ofstream.write((char*)&j, sizeof(j));
+                chunks[i][j]->Dump(ofstream);
+            }
+        }
+    }
+    int end = -1;
+    ofstream.write((char*)&end, sizeof(end));
+    ofstream.write((char*)&end, sizeof(end));
+}
+
+void World::Load(std::ifstream& ifstream) {
+    // binary
+    ifstream.read((char*)&time, sizeof(time));
+    std::size_t lightSourcesSize;
+    ifstream.read((char*)&lightSourcesSize, sizeof(lightSourcesSize));
+    for (std::size_t i = 0; i < lightSourcesSize; i++) {
+        glm::vec3 lightSource;
+        ifstream.read((char*)&lightSource, sizeof(lightSource));
+        lightSources.emplace(lightSource);
+    }
+    while (true) {
+        int i, j;
+        ifstream.read((char*)&i, sizeof(i));
+        if (i == -1) {
+            break;
+        }
+        ifstream.read((char*)&j, sizeof(j));
+        chunks[i][j] = std::make_unique<Chunk>();
+        chunks[i][j]->Load(ifstream);
+    }
+    Update();
 }

@@ -4,7 +4,7 @@
 #include "Time.h"
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <stdio.h>
+#include <fstream>
 
 static bool firstMouse = true;
 static float lastX = nanf("");
@@ -127,3 +127,44 @@ void Player::OnMouseClick(int button, int action, int mods) {
 }
 
 void Player::Respawn() { this->camera.Position = spawnPosition(this->world) + glm::vec3(0, 3, 0); }
+
+void Player::Dump(std::ofstream& ofstream) {
+    ofstream.write(reinterpret_cast<char*>(&this->camera.Position), sizeof(glm::vec3));
+    ofstream.write(reinterpret_cast<char*>(&this->camera.Yaw), sizeof(float));
+    ofstream.write(reinterpret_cast<char*>(&this->camera.Pitch), sizeof(float));
+    ofstream.write(reinterpret_cast<char*>(&this->heldBlock), sizeof(Block));
+    ofstream.write(reinterpret_cast<char*>(&this->inSurvival), sizeof(bool));
+
+    ofstream.write(reinterpret_cast<char*>(&this->speed), sizeof(float));
+    ofstream.write(reinterpret_cast<char*>(&this->runSpeed), sizeof(float));
+    ofstream.write(reinterpret_cast<char*>(&this->mouseSensitivity), sizeof(float));
+    ofstream.write(reinterpret_cast<char*>(&this->impulse), sizeof(float));
+    ofstream.write(reinterpret_cast<char*>(&this->gravity), sizeof(float));
+    ofstream.write(reinterpret_cast<char*>(&this->yAddedVelocity), sizeof(float));
+    ofstream.write(reinterpret_cast<char*>(&this->touchesGround), sizeof(bool));
+
+}
+void Player::Load(std::ifstream& ifstream) {
+    ifstream.read(reinterpret_cast<char*>(&this->camera.Position), sizeof(glm::vec3));
+    ifstream.read(reinterpret_cast<char*>(&this->camera.Yaw), sizeof(float));
+    ifstream.read(reinterpret_cast<char*>(&this->camera.Pitch), sizeof(float));
+    ifstream.read(reinterpret_cast<char*>(&this->heldBlock), sizeof(Block));
+    ifstream.read(reinterpret_cast<char*>(&this->inSurvival), sizeof(bool));
+
+    ifstream.read(reinterpret_cast<char*>(&this->speed), sizeof(float));
+    ifstream.read(reinterpret_cast<char*>(&this->runSpeed), sizeof(float));
+    ifstream.read(reinterpret_cast<char*>(&this->mouseSensitivity), sizeof(float));
+    ifstream.read(reinterpret_cast<char*>(&this->impulse), sizeof(float));
+    ifstream.read(reinterpret_cast<char*>(&this->gravity), sizeof(float));
+    ifstream.read(reinterpret_cast<char*>(&this->yAddedVelocity), sizeof(float));
+    ifstream.read(reinterpret_cast<char*>(&this->touchesGround), sizeof(bool));
+
+    printf("Camera: %f %f %f\n", this->camera.Front.x, this->camera.Front.y, this->camera.Front.z);
+    printf("Angles: %f %f\n", this->camera.Yaw, this->camera.Pitch);
+    printf("Held block: %d\n", this->heldBlock);
+    printf("In survival: %d\n", this->inSurvival);
+
+    printf("Settings: %f %f %f %f %f %f %d\n", this->speed, this->runSpeed, this->mouseSensitivity, this->impulse, this->gravity, this->yAddedVelocity, this->touchesGround);
+
+    Update();
+}

@@ -122,3 +122,13 @@ void Chunk::Render() {
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, elements);
 }
+
+void Chunk::Dump(std::ofstream& file) {
+    // binary
+    file.write((char*)blocks, sizeof(blocks));
+}
+void Chunk::Load(std::ifstream& file) {
+    // binary
+    file.read((char*)blocks, sizeof(blocks));
+    needs_update = true;
+}

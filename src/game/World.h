@@ -33,6 +33,8 @@ struct World {
     int GetHeightAt(int x, int z) const;
     void Update();
     void Render(const Camera* camera);
+    void Dump(std::ofstream& ofstream);
+    void Load(std::ifstream& ifstream);
 };
 
 #endif // OGL_WORLD_H

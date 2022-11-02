@@ -1,9 +1,10 @@
 #include "Scene.h"
-#include "../rendering/GLWindow.h"
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <filesystem>
+#include <fstream>
 
-Scene::Scene() : world(), player(&world), pauseMenu(*GLWindow::active_window, &player, &world) {
+Scene::Scene() : world(), player(&world), pauseMenu(*GLWindow::active_window, this) {
     world.shader = std::make_unique<ShaderProgram>(
         Shader::FromFile(GL_VERTEX_SHADER, "../res/shaders/minecube_vs.glsl"),
         Shader::FromFile(GL_FRAGMENT_SHADER, "../res/shaders/minecube_fs.glsl"));
@@ -61,4 +62,23 @@ void Scene::OnMouseClicked(int button, int action, int mods) {
 void Scene::Randomize() {
     world.Randomize();
     player.Respawn();
+}
+
+void Scene::Save(std::string name) {
+    // if worlds folder doesn't exist, create it
+    if (!std::filesystem::exists("../res/worlds")) {
+        std::filesystem::create_directory("../res/worlds");
+    }
+
+    std::ofstream file("../res/worlds/" + name + ".world", std::ios::binary);
+    player.Dump(file);
+    world.Dump(file);
+}
+void Scene::Load(std::string_view name) {
+    std::ifstream file("../res/worlds/" + std::string(name) + ".world", std::ios::binary);
+    if (!file.is_open()) {
+        return;
+    }
+    player.Load(file);
+    world.Load(file);
 }
