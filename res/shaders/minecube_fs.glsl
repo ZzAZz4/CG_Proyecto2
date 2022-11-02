@@ -1,16 +1,31 @@
 #version 450 core
 
-in vec4 texcoord;
-out vec4 fragColor;
-
-uniform sampler2DArray tex;
-uniform float illumination;
-
 const vec4 fogcolor = vec4(0.6, 0.8, 1.0, 1.0);
 const float fogdensity = .00003;
 
+in vec4 texcoord;
+in vec4 modelCoords;
+out vec4 fragColor;
+
+uniform sampler2DArray tex;
+uniform float ambientIllumination;
+uniform vec3 lightPositions[10];
+uniform int lightCount;
+
 float closest(float x, float divisions) {
     return floor(x * divisions) / divisions;
+}
+
+float calculateIllumination() {
+    float illumination = ambientIllumination;
+    for (int i = 0; i < lightCount; ++i) {
+        vec3 lightDir = lightPositions[i] - modelCoords.xyz;
+        float distance = length(lightPositions[i] - modelCoords.xyz);
+        vec3 lightDirNorm = lightDir / distance;
+        float angle = dot(lightDirNorm, vec3(0, 1, 0));
+        illumination += 100 * angle / (distance * distance);
+    }
+    return min(illumination, 1.0);
 }
 
 
@@ -36,7 +51,7 @@ vec4 calculate_color() {
 }
 
 void main() {
-    vec4 color = illumination * calculate_color();
+    vec4 color = calculateIllumination() * calculate_color();
 
     if (color.a < 0.1) {
         discard;

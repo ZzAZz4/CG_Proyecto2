@@ -43,10 +43,16 @@ void World::Render(const Camera* camera) {
     constexpr static auto factor = 2.0f / 24000.0f * glm::pi<float>();
     shader->Bind();
 
+    static glm::vec3 test_position = camera->Position;
+
+    printf("test_position: %f, %f, %f\n", test_position.x, test_position.y, test_position.z);
     shader->setMat4("projection", camera->Projection);
     shader->setMat4("view", camera->View);
-    shader->setFloat("illumination", 0.6f + 0.4f * glm::sin(time * factor));
+    shader->setFloat("ambientIllumination", 0.6f + 0.4f * glm::sin(time * factor));
     GLWindow::active_window->clearColor = mid_color + color_diff * glm::sin(time * factor);
+
+    shader->setVec3("lightPositions[0]", test_position);
+    shader->setInt("lightCount", 1);
 
 
     for (int i = 0; i < (int)std::size(chunks); i++) {
