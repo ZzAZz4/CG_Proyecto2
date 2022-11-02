@@ -111,15 +111,28 @@ static float generate_height_at(int x, int z, int start_layer, int end_layer) {
     return height / (float)(start_layer - end_layer + 1);
 }
 
+static uint8_t BlockAt(int x, int y, int z, int desiredHeight) {
+    if (y < 25 && y > desiredHeight) {
+        return Block::Water;
+    } else if (y == desiredHeight) {
+        return Block::Grass;
+    } else if (y < desiredHeight) {
+        return Block::Dirt;
+    } else {
+        return Block::Air;
+    }
+}
+
+
 void World::Randomize() {
     for (int x = 0; x < DIAMETER_X; x++) {
         for (int z = 0; z < DIAMETER_Z; z++) {
-            float height = generate_height_at(x, z, 9, 5);
+            float height = generate_height_at(x, z, 8, 5);
             height = (height + 1) / 2;
-            height *= 32.0f + 1.0f;
+            height *= 56.0f;
             int y_max = (int)height + 1;
-            for (int y = 0; y < y_max; y++) {
-                SetBlock(x, y, z, Block::Grass);
+            for (int y = 0; y <= glm::max(y_max, 25); y++) {
+                SetBlock(x, y, z, BlockAt(x, y, z, y_max));
             }
         }
     }

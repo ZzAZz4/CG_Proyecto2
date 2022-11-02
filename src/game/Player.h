@@ -30,6 +30,7 @@ struct Player {
 
     bool inSurvival = false;
     bool touchesGround = false;
+    bool canSwim = false;
 
     uint8_t heldBlock = Block::Grass;
 

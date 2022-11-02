@@ -34,7 +34,7 @@ void Player::Update() {
     if (this->actionFlags.left)
         posOffset -= this->camera.Right * velocity;
     if (this->actionFlags.up) {
-        if (!inSurvival) {
+        if (!inSurvival || this->canSwim) {
             posOffset += glm::vec3(0, velocity, 0);
         } else if (touchesGround) {
             touchesGround = false;

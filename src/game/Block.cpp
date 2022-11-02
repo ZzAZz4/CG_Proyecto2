@@ -91,12 +91,13 @@ void Block::AddBlock(uint8_t id, std::string_view name, const Block::Data& d) {
 }
 
 void Block::InitBlocks() {
-    AddBlock(Air, "Air", {0, 0, 0, 0, 0, 0, false, true});
-    AddBlock(Grass, "Grass", Data{4, 4, 4, 4, 1, 3, false, false});
-    AddBlock(Stone, "Stone", {2, 2, 2, 2, 2, 2, false, false});
-    AddBlock(Dirt, "Dirt", {3, 3, 3, 3, 3, 3, false, false});
-    AddBlock(Wood, "Wood", {5, 5, 5, 5, 5, 5, false, false});
-    AddBlock(Brick, "Brick", {8, 8, 8, 8, 8, 8, false, false});
-    AddBlock(Glass, "Glass", {50, 50, 50, 50, 50, 50, false, true});
-    AddBlock(JackOLantern, "JackOLantern", Data{121, 119, 119, 119, 103, 103, true, false});
+    AddBlock(Air, "Air", {0, 0, 0, 0, 0, 0, false, true, 1.0f});
+    AddBlock(Grass, "Grass", Data{4, 4, 4, 4, 1, 3, false, false, 0.0f});
+    AddBlock(Stone, "Stone", {2, 2, 2, 2, 2, 2, false, false, 0.0f});
+    AddBlock(Dirt, "Dirt", {3, 3, 3, 3, 3, 3, false, false, 0.0f});
+    AddBlock(Wood, "Wood", {5, 5, 5, 5, 5, 5, false, false, 0.0f});
+    AddBlock(Brick, "Brick", {8, 8, 8, 8, 8, 8, false, false, 0.0f});
+    AddBlock(Glass, "Glass", {50, 50, 50, 50, 50, 50, false, true, 0.0f});
+    AddBlock(JackOLantern, "JackOLantern", Data{121, 119, 119, 119, 103, 103, true, false, 0.0f});
+    AddBlock(Water, "Water", Data{207, 207, 207, 207, 207, 207, false, true, 0.5f});
 }

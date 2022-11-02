@@ -18,6 +18,7 @@ struct Block {
         Brick = 8,
         Glass = 50,
         JackOLantern = 121,
+        Water = 126,
         NUM_BLOCKS,
     };
     struct Data {
@@ -29,13 +30,16 @@ struct Block {
         uint8_t textureBottom;
         bool islightSource;
         bool isTransparent;
-
+        float collisionAmortization;
     };
 
     static inline Data data[257]{};
     static inline std::map<std::string_view, uint8_t> nameLookup{
         {"Air", Block::Air},     {"Grass", Block::Grass}, {"Wood", Block::Wood},
-        {"Brick", Block::Brick}, {"Glass", Block::Glass}, {"JackOLantern", Block::JackOLantern}};
+        {"Brick", Block::Brick}, {"Glass", Block::Glass}, {"JackOLantern", Block::JackOLantern},
+        {"Water", Block::Water}, {"Stone", Block::Stone}, {"Dirt", Block::Dirt},
+
+    };
 
     static void Init(const ShaderProgram& program, std::string_view textureFile);
     static void InitBlocks();
