@@ -54,18 +54,15 @@ void PauseMenu::ShowPlayerSettings() {
     ImGui::SliderFloat("Mouse sensitivity", &scene->player.mouseSensitivity, 0.0f, 1.0f);
 }
 
-void PauseMenu::switchInSurvival() {
-    if (!showSubMenu) {
-        ImGui::TextColored(ImVec4(1, 1, 0, 1), "Play in survival (activate gravity and colisions)");
-        ToggleButton("Switch to survival mode", &(player->inSurvival));
-        if (player->inSurvival) {
-            ImGui::Text("You are currently playing on Survival mode");
-            ImGui::SliderFloat("Gravity", &player->gravity, -100.0f, 0.0f);
-            ImGui::SliderFloat("Impulse", &player->impulse, 0.0f, 20.0f);
-        } else {
-            ImGui::Text("Touch the toggle button to switch to Survival mode");
-        }
-        changePlayerSettings();
+void PauseMenu::ShowSurvivalSwitch() {
+    ImGui::TextColored(ImVec4(1, 1, 0, 1), "Play in survival (activate gravity and colisions)");
+    ToggleButton("Switch to survival mode", &(scene->player.inSurvival));
+    if (scene->player.inSurvival) {
+        ImGui::Text("You are currently playing on Survival mode");
+        ImGui::SliderFloat("Gravity", &scene->player.gravity, -100.0f, 0.0f);
+        ImGui::SliderFloat("Impulse", &scene->player.impulse, 0.0f, 20.0f);
+    } else {
+        ImGui::Text("Touch the toggle button to switch to Survival mode\n");
     }
 }
 
@@ -75,9 +72,37 @@ void PauseMenu::ShowSetTimeSlider() {
 
 void PauseMenu::SetupFrame() {
     ImGui::Begin("[ PAUSE ]");
-    changeHeldBlock();
-    switchInSurvival();
-    setTime();
+    switch (state) {
+        case PAUSE_MENU_STATE_MAIN: {
+            ShowChangeBlockSubmenuButton();
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ShowSurvivalSwitch();
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ShowPlayerSettings();
+            ShowSetTimeSlider();
+            ShowFileSelectButtons();
+            break;
+        }
+        case PAUSE_MENU_STATE_BLOCK_SELECT: {
+            ShowChangeBlockMenu();
+            break;
+        }
+        case PAUSE_MENU_STATE_LOAD_FILE: {
+            ShowLoadFileMenu();
+            break;
+        }
+        case PAUSE_MENU_STATE_SAVE_FILE: {
+            ShowSaveFileMenu();
+            break;
+        }
+        default: {
+            break;
+        }
+    }
     ImGui::End();
 }
 void PauseMenu::ShowFileSelectButtons() {
