@@ -10,7 +10,6 @@ struct Scene {
     World world;
     Player player;
     PauseMenu pauseMenu;
-    float time = 0;
     bool isMenuOpen = false;
 
     Scene();

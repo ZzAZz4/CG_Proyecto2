@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-Scene::Scene() : world(), player(&world), pauseMenu(*GLWindow::active_window, &player) {
+Scene::Scene() : world(), player(&world), pauseMenu(*GLWindow::active_window, &player, &world) {
     world.shader = std::make_unique<ShaderProgram>(
         Shader::FromFile(GL_VERTEX_SHADER, "../res/shaders/minecube_vs.glsl"),
         Shader::FromFile(GL_FRAGMENT_SHADER, "../res/shaders/minecube_fs.glsl"));

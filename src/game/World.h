@@ -14,8 +14,12 @@ struct World {
     constexpr static int DIAMETER_X = CHUNKS_IN_X * Chunk::CHUNK_SIZE;
     constexpr static int DIAMETER_Z = CHUNKS_IN_Z * Chunk::CHUNK_SIZE;
 
+    constexpr static const auto day_color = glm::vec4{0.4f, 0.6f, 0.9f, 1.0f};
+    constexpr static const auto night_color = glm::vec4{0.08f, 0.08f, 0.2f, 1.0f};
+
     std::unique_ptr<Chunk> chunks[CHUNKS_IN_X][CHUNKS_IN_Z];
     std::unique_ptr<ShaderProgram> shader;
+    float time = 0;
 
     World();
     void Randomize();

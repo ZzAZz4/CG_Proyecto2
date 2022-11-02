@@ -26,7 +26,9 @@ void Application::Update() {
     scene->Update();
 }
 
-void Application::Render() { scene->Render(); }
+void Application::Render() {
+    scene->Render();
+}
 
 void Application::OnResize(int width, int height) { scene->OnResize(width, height); }
 

@@ -2,6 +2,8 @@
 #include "World.h"
 #include "Block.h"
 #include "Camera.h"
+#include "Time.h"
+#include "../rendering/GLWindow.h"
 #include <glm/gtc/noise.hpp>
 
 constexpr static int ilog2(int n) {
@@ -22,6 +24,10 @@ World::World() {
 }
 
 void World::Update() {
+    time += Time::deltaTime;
+    if (time > 24000) {
+        time -= 24000;
+    }
     for (auto& chunkRow : chunks) {
         for (auto& chunk : chunkRow) {
             if (chunk != nullptr) {
@@ -32,10 +38,16 @@ void World::Update() {
 }
 
 void World::Render(const Camera* camera) {
+    constexpr static auto mid_color = (day_color + night_color) / 2.0f;
+    constexpr static auto color_diff = (day_color - night_color) / 2.0f;
+    constexpr static auto factor = 2.0f / 24000.0f * glm::pi<float>();
     shader->Bind();
 
     shader->setMat4("projection", camera->Projection);
     shader->setMat4("view", camera->View);
+    shader->setFloat("illumination", 0.6f + 0.4f * glm::sin(time * factor));
+    GLWindow::active_window->clearColor = mid_color + color_diff * glm::sin(time * factor);
+
 
     for (int i = 0; i < (int)std::size(chunks); i++) {
         for (int j = 0; j < (int)std::size(chunks[i]); j++) {

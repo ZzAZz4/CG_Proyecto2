@@ -4,6 +4,7 @@ in vec4 texcoord;
 out vec4 fragColor;
 
 uniform sampler2DArray tex;
+uniform float illumination;
 
 const vec4 fogcolor = vec4(0.6, 0.8, 1.0, 1.0);
 const float fogdensity = .00003;
@@ -11,6 +12,7 @@ const float fogdensity = .00003;
 float closest(float x, float divisions) {
     return floor(x * divisions) / divisions;
 }
+
 
 vec4 calculate_color() {
     if (texcoord.w > 0.0) {
@@ -34,7 +36,7 @@ vec4 calculate_color() {
 }
 
 void main() {
-    vec4 color = calculate_color();
+    vec4 color = illumination * calculate_color();
 
     if (color.a < 0.1) {
         discard;

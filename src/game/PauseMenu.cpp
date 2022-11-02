@@ -1,7 +1,8 @@
 #include "PauseMenu.h"
 #include "imgui.h"
 
-PauseMenu::PauseMenu(const GLWindow& window, Player* player) : Gui(window), player(player) {}
+PauseMenu::PauseMenu(const GLWindow& window, Player* player, World* world)
+    : Gui(window), player(player), world(world) {}
 
 void ToggleButton(const char* str_id, bool* v) {
     ImVec2 p = ImGui::GetCursorScreenPos();
@@ -69,9 +70,15 @@ void PauseMenu::switchInSurvival() {
     }
 }
 
+void PauseMenu::setTime() {
+    ImGui::SliderFloat("Time", &world->time, 0.0f, 24000.0f);
+}
+
+
 void PauseMenu::SetupFrame() {
     ImGui::Begin("[ PAUSE ]");
     changeHeldBlock();
     switchInSurvival();
+    setTime();
     ImGui::End();
 }
