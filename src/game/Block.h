@@ -32,7 +32,7 @@ struct Block {
 
     };
 
-    static inline Data blockData[257]{};
+    static inline Data data[257]{};
     static inline std::map<std::string_view, uint8_t> nameLookup{
         {"Air", Block::Air},     {"Grass", Block::Grass}, {"Wood", Block::Wood},
         {"Brick", Block::Brick}, {"Glass", Block::Glass}, {"JackOLantern", Block::JackOLantern}};

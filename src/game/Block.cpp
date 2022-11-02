@@ -50,7 +50,7 @@ static void load_face(int face, int subimage_width, int subimage_height, const S
     glBindTexture(GL_TEXTURE_2D_ARRAY, textureID[face]);
     glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA, subimage_width, subimage_height, 257, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
     for (int id = 1; id <= 256; ++id) {
-        glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, id, subimage_width, subimage_height, 1, GL_RGBA, GL_UNSIGNED_BYTE, buffer[Block::blockData[id].*memberPtr][0][0]);
+        glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, id, subimage_width, subimage_height, 1, GL_RGBA, GL_UNSIGNED_BYTE, buffer[Block::data[id].*memberPtr][0][0]);
     }
     glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
 
@@ -85,9 +85,9 @@ void Block::Init(const ShaderProgram& program, std::string_view textureFile) {
     load_face(5, subimage_width, subimage_height, program);
 }
 
-void Block::AddBlock(uint8_t id, std::string_view name, const Block::Data& data) {
+void Block::AddBlock(uint8_t id, std::string_view name, const Block::Data& d) {
     nameLookup[name] = id;
-    blockData[id] = data;
+    data[id] = d;
 }
 
 void Block::InitBlocks() {

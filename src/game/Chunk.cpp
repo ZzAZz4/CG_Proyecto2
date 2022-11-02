@@ -57,7 +57,7 @@ void Chunk::Update() {
                     continue;
                 }
 
-                if (x == 0 || GetBlock(x - 1, y, z) == Block::Air) {
+                if (x == 0 || GetBlock(x - 1, y, z) == Block::Air || Block::data[GetBlock(x - 1, y, z)].isTransparent) {
                     vertex[i++] = {{x, y, z, block}, (1 << 1) + 0};
                     vertex[i++] = {{x, y + 1, z, block}, (1 << 1) + 0};
                     vertex[i++] = {{x, y, z + 1, block}, (1 << 1) + 0};
@@ -65,7 +65,7 @@ void Chunk::Update() {
                     vertex[i++] = {{x, y + 1, z, block}, (1 << 1) + 0};
                     vertex[i++] = {{x, y + 1, z + 1, block}, (1 << 1) + 0};
                 }
-                if (x + 1 == CHUNK_SIZE || GetBlock(x + 1, y, z) == Block::Air) {
+                if (x + 1 == CHUNK_SIZE || GetBlock(x + 1, y, z) == Block::Air || Block::data[GetBlock(x + 1, y, z)].isTransparent) {
                     vertex[i++] = {{x + 1, y, z, block}, (1 << 1) + 1};
                     vertex[i++] = {{x + 1, y, z + 1, block}, (1 << 1) + 1};
                     vertex[i++] = {{x + 1, y + 1, z, block}, (1 << 1) + 1};
@@ -73,7 +73,7 @@ void Chunk::Update() {
                     vertex[i++] = {{x + 1, y, z + 1, block}, (1 << 1) + 1};
                     vertex[i++] = {{x + 1, y + 1, z + 1, block}, (1 << 1) + 1};
                 }
-                if (y == 0 || GetBlock(x, y - 1, z) == Block::Air) {
+                if (y == 0 || GetBlock(x, y - 1, z) == Block::Air || Block::data[GetBlock(x, y - 1, z)].isTransparent) {
                     vertex[i++] = {{x, y, z, block}, (1 << 2) + 0};
                     vertex[i++] = {{x, y, z + 1, block}, (1 << 2) + 0};
                     vertex[i++] = {{x + 1, y, z, block}, (1 << 2) + 0};
@@ -81,7 +81,7 @@ void Chunk::Update() {
                     vertex[i++] = {{x, y, z + 1, block}, (1 << 2) + 0};
                     vertex[i++] = {{x + 1, y, z + 1, block}, (1 << 2) + 0};
                 }
-                if (y + 1 == MAX_HEIGHT || GetBlock(x, y + 1, z) == Block::Air) {
+                if (y + 1 == MAX_HEIGHT || GetBlock(x, y + 1, z) == Block::Air || Block::data[GetBlock(x, y + 1, z)].isTransparent) {
                     vertex[i++] = {{x, y + 1, z, block}, (1 << 2) + 1};
                     vertex[i++] = {{x + 1, y + 1, z, block}, (1 << 2) + 1};
                     vertex[i++] = {{x, y + 1, z + 1, block}, (1 << 2) + 1};
@@ -89,7 +89,7 @@ void Chunk::Update() {
                     vertex[i++] = {{x + 1, y + 1, z + 1, block}, (1 << 2) + 1};
                     vertex[i++] = {{x, y + 1, z + 1, block}, (1 << 2) + 1};
                 }
-                if (z == 0 || GetBlock(x, y, z - 1) == Block::Air) {
+                if (z == 0 || GetBlock(x, y, z - 1) == Block::Air || Block::data[GetBlock(x, y, z - 1)].isTransparent) {
                     vertex[i++] = {{x, y, z, block}, (1 << 3) + 0};
                     vertex[i++] = {{x + 1, y, z, block}, (1 << 3) + 0};
                     vertex[i++] = {{x, y + 1, z, block}, (1 << 3) + 0};
@@ -97,7 +97,7 @@ void Chunk::Update() {
                     vertex[i++] = {{x + 1, y + 1, z, block}, (1 << 3) + 0};
                     vertex[i++] = {{x, y + 1, z, block}, (1 << 3) + 0};
                 }
-                if (z + 1 == CHUNK_SIZE || GetBlock(x, y, z + 1) == Block::Air) {
+                if (z + 1 == CHUNK_SIZE || GetBlock(x, y, z + 1) == Block::Air || Block::data[GetBlock(x, y, z + 1)].isTransparent) {
                     vertex[i++] = {{x, y, z + 1, block}, (1 << 3) + 1};
                     vertex[i++] = {{x, y + 1, z + 1, block}, (1 << 3) + 1};
                     vertex[i++] = {{x + 1, y, z + 1, block}, (1 << 3) + 1};
