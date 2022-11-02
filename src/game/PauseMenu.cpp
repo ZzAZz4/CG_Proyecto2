@@ -33,19 +33,14 @@ void PauseMenu::changeHeldBlock() {
             showSubMenu = true;
     } else {
         ImGui::BulletText("[ CHANGE HELD BLOCK ]");
-        char newBlock[64];
         ImGui::TextColored(ImVec4(1, 1, 0, 1), "Current available blocks are:");
+        std::string currentHeldBlock;
         for (const auto& bm : blockMap) {
-            ImGui::Text("%s\n", bm.first.c_str());
+            if(ImGui::Button(bm.first.c_str())) this->player->heldBlock = blockMap[bm.first];
+            if(bm.second == this->player->heldBlock) currentHeldBlock = bm.first;
         }
-        ImGui::InputText("Which Block do you want to use?", newBlock, sizeof(newBlock));
-        auto it = blockMap.find(newBlock);
-        if (it != blockMap.end()) {
-            this->player->heldBlock = blockMap[newBlock];
-            ImGui::Text("Your held block is now: %s", newBlock);
-        }
-        if (ImGui::Button("Exit"))
-            showSubMenu = false;
+        ImGui::Text("The block you are holding is: %s", currentHeldBlock.c_str());
+        if (ImGui::Button("Exit")) showSubMenu = false;
     }
 }
 
