@@ -27,7 +27,7 @@ Chunk::Chunk() : blocks{}, VAO(0), VBO(0), elements(0), needs_update(true) {
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_BYTE, GL_FALSE, sizeof(ChunkVertex), (void*)(offsetof(ChunkVertex, position)));
+    glVertexAttribPointer(0, 4, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(ChunkVertex), (void*)(offsetof(ChunkVertex, position)));
     glEnableVertexAttribArray(1);
     glVertexAttribIPointer(1, 1, GL_UNSIGNED_BYTE, sizeof(ChunkVertex), (void*)(offsetof(ChunkVertex, normal)));
 }

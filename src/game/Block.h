@@ -18,8 +18,7 @@ struct Block {
         Brick = 8,
         Glass = 50,
         JackOLantern = 121,
-        Water = 126,
-        NUM_BLOCKS,
+        Water = 207,
     };
     struct Data {
         uint8_t textureFront;
