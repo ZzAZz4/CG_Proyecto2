@@ -25,6 +25,8 @@ static void copy_subimage(int image, int width, int channels, const unsigned cha
 }
 
 void Block::Init(const ShaderProgram& program, std::string_view textureFile) {
+    isLightSource[Block::JackOLantern] = true;
+
     int width, height, channels;
     unsigned char* data = stbi_load(textureFile.data(), &width, &height, &channels, 0);
     if (!data) {

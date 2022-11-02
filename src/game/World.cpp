@@ -43,16 +43,17 @@ void World::Render(const Camera* camera) {
     constexpr static auto factor = 2.0f / 24000.0f * glm::pi<float>();
     shader->Bind();
 
-    static glm::vec3 test_position = camera->Position;
-
-    printf("test_position: %f, %f, %f\n", test_position.x, test_position.y, test_position.z);
     shader->setMat4("projection", camera->Projection);
     shader->setMat4("view", camera->View);
     shader->setFloat("ambientIllumination", 0.6f + 0.4f * glm::sin(time * factor));
     GLWindow::active_window->clearColor = mid_color + color_diff * glm::sin(time * factor);
 
-    shader->setVec3("lightPositions[0]", test_position);
-    shader->setInt("lightCount", 1);
+    int i = 0;
+    for (const auto& lightSource : lightSources) {
+        shader->setVec3("lightSources[" + std::to_string(i) + "]", lightSource + glm::vec3(0.5f));
+        i++;
+    }
+    shader->setInt("lightSourcesCount", i);
 
 
     for (int i = 0; i < (int)std::size(chunks); i++) {
@@ -91,6 +92,12 @@ void World::SetBlock(int x, int y, int z, uint8_t block) {
     int cx = x & (Chunk::CHUNK_SIZE - 1);
     int cz = z & (Chunk::CHUNK_SIZE - 1);
     chunks[x >> LOG_CHUNK_SIZE][z >> LOG_CHUNK_SIZE]->SetBlock(cx, y, cz, block);
+
+    if (Block::isLightSource[block]) {
+        lightSources.emplace(x, y, z);
+    } else if (lightSources.contains(glm::vec3(x, y, z))) {
+        lightSources.erase(glm::vec3(x, y, z));
+    }
 }
 
 static float generate_height_at(int x, int z, int start_layer, int end_layer) {
