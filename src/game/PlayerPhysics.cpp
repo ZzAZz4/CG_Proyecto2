@@ -164,11 +164,13 @@ glm::vec3 PlayerPhysics::result(Player& player, const World& world, const glm::v
 
     if (posOffsetY > 0.0f && !createsYPositiveCollision(aabb, posOffsetY, world)) {
         final_direction.y = posOffsetY;
-    } else if (createsYNegativeCollision(aabb, posOffsetY, world)) {
-        player.touchesGround = true;
-    } else {
-        player.touchesGround = false;
-        final_direction.y = posOffsetY;
+    } else if (posOffsetY < 0.0f) {
+        if (createsYNegativeCollision(aabb, posOffsetY, world)) {
+            player.touchesGround = true;
+        } else {
+            player.touchesGround = false;
+            final_direction.y = posOffsetY;
+        }
     }
 
     if (posOffsetZ > 0.0f && !createsZPositiveCollision(aabb, posOffsetZ, world)) {

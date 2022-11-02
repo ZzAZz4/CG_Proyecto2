@@ -49,7 +49,7 @@ void Player::Update() {
 
     if (inSurvival) {
         yAddedVelocity =
-            touchesGround ? 0
+            touchesGround ? -0.01f
                           : glm::clamp(yAddedVelocity + gravity * Time::deltaTime, -30.0f, 30.0f);
         posOffset.y += yAddedVelocity * Time::deltaTime;
         this->camera.Position = PlayerPhysics::result(*this, *this->world, posOffset);
