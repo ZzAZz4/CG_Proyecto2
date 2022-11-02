@@ -178,5 +178,8 @@ glm::vec3 PlayerPhysics::result(Player& player, const World& world, const glm::v
     }
 
     float amortization = CalculateAmortization(aabb, world, player.canSwim);
+    if (amortization == 0.0f) {
+        return player.camera.Position + final_direction;
+    }
     return player.camera.Position + final_direction * amortization;
 }
