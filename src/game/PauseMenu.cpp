@@ -62,6 +62,7 @@ void PauseMenu::switchInSurvival() {
             ImGui::Text("Touch the toggle button to switch to Survival mode");
         }
         changePlayerSettings();
+        setTime();
     }
 }
 
@@ -74,6 +75,5 @@ void PauseMenu::SetupFrame() {
     ImGui::Begin("[ PAUSE ]");
     changeHeldBlock();
     switchInSurvival();
-    setTime();
     ImGui::End();
 }
