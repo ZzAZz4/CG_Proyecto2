@@ -3,7 +3,7 @@
 const vec4 fogcolor = vec4(0.6, 0.8, 1.0, 1.0);
 const float fogdensity = .00003;
 
-uniform sampler2DArray tex;
+uniform sampler2DArray tex[6];
 uniform float ambientIllumination;
 uniform vec3 lightSources[10];
 uniform int lightSourcesCount;
@@ -11,9 +11,14 @@ uniform int lightSourcesCount;
 in vec4 texcoord;
 in vec4 modelCoords;
 in vec3 fragnormal;
+flat in uint fragNormalFlags;
+flat in uint face;
 
 out vec4 fragColor;
 
+uint bit(uint x, uint n) {
+    return (x >> n) & 1u;
+}
 
 bool lightInCube(vec3 a, vec3 b) {
     return abs(a.x - b.x) <= 0.5 && abs(a.y - b.y) <= 0.5 && abs(a.z - b.z) <= 0.5;
@@ -42,21 +47,21 @@ float closest(float x, float divisions) {
 }
 
 vec4 calculateColor() {
-    if (fragnormal.y == 0.0) {
-        return 0.85 * texture(tex,
+    if (bit(fragNormalFlags, 2) != 1u) {
+        return 0.85 * texture(tex[face],
             vec3(
                 closest(fract(texcoord.x + texcoord.z), 16),
                 closest(fract(texcoord.y), 16),
-                texcoord.w - 1.0
+                texcoord.w
             )
         );
     }
     else {
-        return texture(tex,
+        return texture(tex[face],
             vec3(
                 closest(fract(texcoord.x + texcoord.y), 16),
                 closest(fract(texcoord.z), 16),
-                texcoord.w - 1.0
+                texcoord.w
             )
         );
     };

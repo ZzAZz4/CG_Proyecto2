@@ -93,7 +93,7 @@ void World::SetBlock(int x, int y, int z, uint8_t block) {
     int cz = z & (Chunk::CHUNK_SIZE - 1);
     chunks[x >> LOG_CHUNK_SIZE][z >> LOG_CHUNK_SIZE]->SetBlock(cx, y, cz, block);
 
-    if (Block::isLightSource[block]) {
+    if (Block::blockData[block].islightSource) {
         lightSources.emplace(x, y, z);
     } else if (lightSources.contains(glm::vec3(x, y, z))) {
         lightSources.erase(glm::vec3(x, y, z));
