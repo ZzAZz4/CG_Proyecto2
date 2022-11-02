@@ -4,6 +4,8 @@
 #define OGL_WORLD_H
 
 #include "../rendering/ShaderProgram.h"
+#include <glm/gtx/hash.hpp>
+#include <unordered_set>
 #include "Camera.h"
 #include "Chunk.h"
 #include <memory>
@@ -17,6 +19,8 @@ struct World {
     constexpr static const auto day_color = glm::vec4{0.4f, 0.6f, 0.9f, 1.0f};
     constexpr static const auto night_color = glm::vec4{0.08f, 0.08f, 0.2f, 1.0f};
 
+    std::unordered_set<glm::vec3> lightSources;
+
     std::unique_ptr<Chunk> chunks[CHUNKS_IN_X][CHUNKS_IN_Z];
     std::unique_ptr<ShaderProgram> shader;
     float time = 0;
@@ -29,6 +33,8 @@ struct World {
     int GetHeightAt(int x, int z) const;
     void Update();
     void Render(const Camera* camera);
+    void Dump(std::ofstream& ofstream);
+    void Load(std::ifstream& ifstream);
 };
 
 #endif // OGL_WORLD_H

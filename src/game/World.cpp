@@ -5,6 +5,7 @@
 #include "Time.h"
 #include "../rendering/GLWindow.h"
 #include <glm/gtc/noise.hpp>
+#include <fstream>
 
 constexpr static int ilog2(int n) {
     int r = 0;
@@ -43,16 +44,17 @@ void World::Render(const Camera* camera) {
     constexpr static auto factor = 2.0f / 24000.0f * glm::pi<float>();
     shader->Bind();
 
-    static glm::vec3 test_position = camera->Position;
-
-    printf("test_position: %f, %f, %f\n", test_position.x, test_position.y, test_position.z);
     shader->setMat4("projection", camera->Projection);
     shader->setMat4("view", camera->View);
     shader->setFloat("ambientIllumination", 0.6f + 0.4f * glm::sin(time * factor));
     GLWindow::active_window->clearColor = mid_color + color_diff * glm::sin(time * factor);
 
-    shader->setVec3("lightPositions[0]", test_position);
-    shader->setInt("lightCount", 1);
+    int i = 0;
+    for (const auto& lightSource : lightSources) {
+        shader->setVec3("lightSources[" + std::to_string(i) + "]", lightSource + glm::vec3(0.5f));
+        i++;
+    }
+    shader->setInt("lightSourcesCount", i);
 
 
     for (int i = 0; i < (int)std::size(chunks); i++) {
@@ -91,6 +93,12 @@ void World::SetBlock(int x, int y, int z, uint8_t block) {
     int cx = x & (Chunk::CHUNK_SIZE - 1);
     int cz = z & (Chunk::CHUNK_SIZE - 1);
     chunks[x >> LOG_CHUNK_SIZE][z >> LOG_CHUNK_SIZE]->SetBlock(cx, y, cz, block);
+
+    if (Block::data[block].islightSource) {
+        lightSources.emplace(x, y, z);
+    } else if (lightSources.contains(glm::vec3(x, y, z))) {
+        lightSources.erase(glm::vec3(x, y, z));
+    }
 }
 
 static float generate_height_at(int x, int z, int start_layer, int end_layer) {
@@ -103,15 +111,28 @@ static float generate_height_at(int x, int z, int start_layer, int end_layer) {
     return height / (float)(start_layer - end_layer + 1);
 }
 
+static uint8_t BlockAt(int x, int y, int z, int desiredHeight) {
+    if (y < 25 && y > desiredHeight) {
+        return Block::Water;
+    } else if (y == desiredHeight) {
+        return Block::Grass;
+    } else if (y < desiredHeight) {
+        return Block::Dirt;
+    } else {
+        return Block::Air;
+    }
+}
+
+
 void World::Randomize() {
     for (int x = 0; x < DIAMETER_X; x++) {
         for (int z = 0; z < DIAMETER_Z; z++) {
-            float height = generate_height_at(x, z, 9, 5);
+            float height = generate_height_at(x, z, 8, 5);
             height = (height + 1) / 2;
-            height *= 32.0f + 1.0f;
+            height *= 56.0f;
             int y_max = (int)height + 1;
-            for (int y = 0; y < y_max; y++) {
-                SetBlock(x, y, z, Block::Grass);
+            for (int y = 0; y <= glm::max(y_max, 25); y++) {
+                SetBlock(x, y, z, BlockAt(x, y, z, y_max));
             }
         }
     }
@@ -124,4 +145,48 @@ int World::GetHeightAt(int x, int z) const {
         }
     }
     return 0;
+}
+void World::Dump(std::ofstream& ofstream) {
+    // binary
+    ofstream.write((char*)&time, sizeof(time));
+    std::size_t lightSourcesSize = lightSources.size();
+    ofstream.write((char*)&lightSourcesSize, sizeof(lightSourcesSize));
+    for (const glm::vec3& lightSource : lightSources) {
+        ofstream.write((char*)&lightSource, sizeof(lightSource));
+    }
+    for (int i = 0; i < (int)std::size(chunks); i++) {
+        for (int j = 0; j < (int)std::size(chunks[i]); j++) {
+            if (chunks[i][j] != nullptr) {
+                ofstream.write((char*)&i, sizeof(i));
+                ofstream.write((char*)&j, sizeof(j));
+                chunks[i][j]->Dump(ofstream);
+            }
+        }
+    }
+    int end = -1;
+    ofstream.write((char*)&end, sizeof(end));
+    ofstream.write((char*)&end, sizeof(end));
+}
+
+void World::Load(std::ifstream& ifstream) {
+    // binary
+    ifstream.read((char*)&time, sizeof(time));
+    std::size_t lightSourcesSize;
+    ifstream.read((char*)&lightSourcesSize, sizeof(lightSourcesSize));
+    for (std::size_t i = 0; i < lightSourcesSize; i++) {
+        glm::vec3 lightSource;
+        ifstream.read((char*)&lightSource, sizeof(lightSource));
+        lightSources.emplace(lightSource);
+    }
+    while (true) {
+        int i, j;
+        ifstream.read((char*)&i, sizeof(i));
+        if (i == -1) {
+            break;
+        }
+        ifstream.read((char*)&j, sizeof(j));
+        chunks[i][j] = std::make_unique<Chunk>();
+        chunks[i][j]->Load(ifstream);
+    }
+    Update();
 }

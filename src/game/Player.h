@@ -30,6 +30,7 @@ struct Player {
 
     bool inSurvival = false;
     bool touchesGround = false;
+    bool canSwim = false;
 
     uint8_t heldBlock = Block::Grass;
 
@@ -43,6 +44,8 @@ struct Player {
     void OnResize(int width, int height);
     void OnMouseScroll(double xoffset, double yoffset);
     void OnMouseClick(int button, int action, int mods);
+    void Dump(std::ofstream& ofstream);
+    void Load(std::ifstream& ifstream);
 };
 
 #endif // OGL_PLAYER_H
