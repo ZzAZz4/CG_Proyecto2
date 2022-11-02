@@ -39,13 +39,11 @@ static void copy_subimage(int image, int width, int channels, const unsigned cha
 }
 
 static void load_face(int face, int subimage_width, int subimage_height, const ShaderProgram& shader) {
-    auto memberPtr = face == 0 ? &Block::Data::textureFront :
-                     face == 1 ? &Block::Data::textureBack :
+    auto memberPtr = face == 0 ? &Block::Data::textureBack :
+                     face == 1 ? &Block::Data::textureFront :
                      face == 2 ? &Block::Data::textureBottom :
                      face == 3 ? &Block::Data::textureTop :
-                     face == 4 ? &Block::Data::textureLeft :
-                     face == 5 ? &Block::Data::textureRight :
-                               nullptr;
+                     face == 4 ? &Block::Data::textureLeft : &Block::Data::textureRight;
 
     glActiveTexture(GL_TEXTURE0 + face);
     glGenTextures(1, &textureID[face]);
